@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {_add} from "../../store/user/action";
+import './style.less'
 
 class Me extends  Component {
   static propTypes = {
@@ -16,12 +17,11 @@ class Me extends  Component {
   }
   render() {
     return (
-      <div>me
-        <div>
-          <Link to="/">home</Link>
-          <p>{this.props.countTest.num}</p>
-        </div>
-      </div>
+      <section className="home">
+        <Link to='/'>home</Link>
+
+        me
+      </section>
     )
   }
 }
