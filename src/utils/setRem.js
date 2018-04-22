@@ -1,11 +1,9 @@
 (function(psdw){
-  var dpr=0 , rem=0 , scale=0;
-  var htmlDOM=document.documentElement;
-  dpr=window.devicePixelRatio;
-  var currentWidth=htmlDOM.clientWidth;
-  scale=currentWidth/psdw;
-  rem=psdw/10;
-  rem=rem*scale;
-  htmlDOM.style.fontSize=rem+'px';
-  htmlDOM.setAttribute('data-dpr',dpr)
-})(750)
+  window.onload = window.onresize = function() {
+    var html = document.documentElement;
+    var owidth = document.body.clientWidth || document.documentElement.clientWidth;
+    var size = owidth / 375 * 100;
+    size = size > 200 ? 200 : size;
+    html.style.fontSize = size + "px";
+  }
+})()

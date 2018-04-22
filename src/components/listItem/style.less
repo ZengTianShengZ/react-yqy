@@ -3,6 +3,56 @@
 * @author: zengtiansheng
 * @update: 2018/4/22
 */
+@import "~src/style/mixin.less";
+@dd: 100rem;
+@imgS: 1.15rem;
 .comp-list-item{
-  
+  padding: 8/@dd;
+  .top{
+    .head-img{
+      width: 45/@dd;
+      height: 45/@dd;
+      border-radius: 45/@dd;
+    }
+    .top-left{
+      margin-left: 10/@dd;
+    }
+    .name{
+      font-size: 16/@dd;
+    }
+    .time{
+      font-size: 12/@dd;
+    }
+  }
+  .content-text{
+    padding: 8/@dd 0;
+    font-size: 14/@dd;
+  }
+  .content-img{
+    .li-img{
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 33.33%;
+      img {
+        width: @imgS;
+        height: @imgS;
+        .cl;
+      }
+      .more-img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: @imgS;
+        height: @imgS;
+        z-index: 233;
+        background: rgba(0,0,0,0.3);
+        font-size: 24/@dd;
+        color: #FFFFFF;
+        text-align: center;
+        line-height: @imgS;
+        .cl;
+      }
+    }
+  }
 }

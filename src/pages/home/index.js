@@ -35,7 +35,10 @@ class Home extends Component {
   render() {
     const row = () => {
       return (
-        <ListItemView/>
+       <div>
+         <ListItemView/>
+         <ListItemView/>
+       </div>
       )
     }
     return (
