@@ -9,28 +9,57 @@ import './style.less'
 
 class ListItem extends Component {
   static propTypes = {
-    item: PropTypes.array
+    item: PropTypes.object
+  }
+  static defaultProps = {
+    item: {
+      headImg: '',
+      name: '',
+      msg: '',
+      createTime: '',
+      listImg: []
+    }
   }
   render() {
+    const data = this.props.item
+    const liImg = () => {
+      if (data.listImg.length > 3) {
+        return (
+          <ul className="f-js-ac">
+            <li className="li-img"><img src={data.listImg[0]} alt=""/></li>
+            <li className="li-img"><img src={data.listImg[1]} alt=""/></li>
+            <li className="li-img">
+              <div className="more-img">+{data.listImg.length-3}</div>
+              <img src={data.listImg[2]} alt=""/>
+            </li>
+          </ul>
+        )
+      } else {
+        return (
+          <ul className="f-js-ac">
+            {
+              data.listImg.map((item, index) => {
+                return (<li className="li-img" key={index}><img src={item} alt=""/></li>)
+              })
+            }
+          </ul>
+        )
+      }
+    }
     return (
       <div className="comp-list-item">
         <div className="top f-js-ac">
-          <img className="head-img" src="https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png" alt="avan"/>
+          <img className="head-img" src={data.headImg} alt="avan"/>
           <div className="top-left f-js-as-dc">
-            <span className="name">name</span>
-            <span className="time">今天 23：23</span>
+            <span className="name">{data.name}</span>
+            <span className="time">{data.createTime}</span>
           </div>
         </div>
-        <div className="content-text">萨克斯经济萨加上扣扣空间</div>
+        <div className="content-text">{data.msg}</div>
         <div className="content-img clear">
-          <ul className="f-jc-ac">
-            <li className="li-img"><img src="https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png" alt=""/></li>
-            <li className="li-img"><img src="https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png" alt=""/></li>
-            <li className="li-img">
-              <div className="more-img">+3</div>
-              <img src="https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png" alt=""/>
-            </li>
-          </ul>
+          {
+            liImg()
+          }
         </div>
       </div>
     )

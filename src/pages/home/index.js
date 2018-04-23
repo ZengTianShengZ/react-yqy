@@ -18,13 +18,45 @@ class Home extends Component {
     countTest: PropTypes.object.isRequired,
     _add: PropTypes.func.isRequired,
   }
-  constructor(props) {
-    super(props)
-    this.state = {
-      refreshing: true,
-      isLoading: true,
-      height: document.documentElement.clientHeight,
-      useBodyScroll: false,
+  state = {
+    refreshing: true,
+    isLoading: true,
+    height: document.documentElement.clientHeight,
+    useBodyScroll: false,
+    resData: {
+      results: [
+        {
+          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+          name: '撒大声地',
+          msg: '的圣诞节的到来的数量多考虑考虑',
+          createTime: '3-23-12',
+          listImg: []
+        },
+        {
+          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+          name: '撒大声地',
+          msg: '的圣诞节的到来的数量多考虑考虑',
+          createTime: '3-23-12',
+          listImg: [
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
+          ]
+        },
+        {
+          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+          name: '撒大声地',
+          msg: '的圣诞节的到来的数量多考虑考虑',
+          createTime: '3-23-12',
+          listImg: [
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
+          ]
+        }
+      ]
     }
   }
   componentDidMount() {
@@ -35,10 +67,13 @@ class Home extends Component {
   render() {
     const row = () => {
       return (
-       <div>
-         <ListItemView/>
-         <ListItemView/>
-       </div>
+        <div>
+          {
+            this.state.resData.results.map((item, index) => {
+              return <ListItemView key={index} item={item}/>
+            })
+          }
+        </div>
       )
     }
     return (
