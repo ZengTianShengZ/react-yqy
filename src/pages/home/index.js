@@ -55,6 +55,62 @@ class Home extends Component {
             'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
             'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
           ]
+        },
+        {
+          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+          name: '撒大声地',
+          msg: '的圣诞节的到来的数量多考虑考虑',
+          createTime: '3-23-12',
+          listImg: [
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
+          ]
+        },
+        {
+          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+          name: '撒大声地',
+          msg: '的圣诞节的到来的数量多考虑考虑',
+          createTime: '3-23-12',
+          listImg: [
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
+          ]
+        },
+        {
+          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+          name: '撒大声地',
+          msg: '的圣诞节的到来的数量多考虑考虑',
+          createTime: '3-23-12',
+          listImg: [
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
+          ]
+        },
+        {
+          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+          name: '撒大声地',
+          msg: '的圣诞节的到来的数量多考虑考虑',
+          createTime: '3-23-12',
+          listImg: [
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
+          ]
         }
       ]
     }
@@ -83,15 +139,16 @@ class Home extends Component {
             renderRow={row}
             isFooterLoading={false}/>
         </section>
+        {/*﻿<NavLink to="/app" exact activeClassName="active">Home</NavLink>*/}
         <footer className="footer">
           <ul className="f-jc-ac">
             <li className="li-footer f-jc-ac-dc">
-              <span className="span-icon"></span>
-              ﻿ <NavLink to="/" exact activeClassName="active">home</NavLink>
+              <span className="span-icon icon-home"></span>
+              ﻿<span className="span-text">主页</span>
             </li>
             <li className="li-footer f-jc-ac-dc">
-              <span className="span-icon"></span>
-              ﻿ <NavLink to="/me" exact activeClassName="active">me</NavLink>
+              <span className="span-icon icon-me"></span>
+              ﻿<span className="span-text">我的</span>
             </li>
           </ul>
         </footer>
