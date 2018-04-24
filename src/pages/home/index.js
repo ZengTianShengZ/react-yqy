@@ -6,7 +6,7 @@
 import React, {Component} from "react";
 // import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import { NavLink} from 'react-router-dom'
+// import { NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
 import PullToRefreshView from 'src/components/pullToRefresh'
@@ -134,24 +134,9 @@ class Home extends Component {
     }
     return (
       <section className="home">
-        <section>
-          <PullToRefreshView
-            renderRow={row}
-            isFooterLoading={false}/>
-        </section>
-        {/*﻿<NavLink to="/app" exact activeClassName="active">Home</NavLink>*/}
-        <footer className="footer">
-          <ul className="f-jc-ac">
-            <li className="li-footer f-jc-ac-dc">
-              <span className="span-icon icon-home"></span>
-              ﻿<span className="span-text">主页</span>
-            </li>
-            <li className="li-footer f-jc-ac-dc">
-              <span className="span-icon icon-me"></span>
-              ﻿<span className="span-text">我的</span>
-            </li>
-          </ul>
-        </footer>
+        <PullToRefreshView
+          renderRow={row}
+          isFooterLoading={false}/>
       </section>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import FastClick from 'fastclick';
-import App from './App';
+import Route from './router/'
 import store from 'src/store/store'
 import {Provider} from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
@@ -21,10 +21,10 @@ const render = Component => {
     document.getElementById('root')
   )
 }
-render(App)
+render(Route)
 if (module.hot) {
   module.hot.accept('./router/', () => {
-    render(App)
+    render(Route)
   })
 }
 // ReactDOM.render(<App />, document.getElementById('root'));
