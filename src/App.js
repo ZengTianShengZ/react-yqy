@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { BrowserRouter, Switch, Route, Redirect, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import asyncComponent from "./utils/asyncComponent";
 import './App.less'
 const Home = asyncComponent(() => import('./pages/home'))
@@ -23,7 +23,7 @@ class App extends Component {
         return (
           <section className="section-app">
             <Switch>
-              <Route path="/app/me/" exact component={Me}></Route>
+              <Route path="/app/me/" component={Me}></Route>
               <Route path="/app/" component={Home}></Route>
             </Switch>
             <footer className="footer">

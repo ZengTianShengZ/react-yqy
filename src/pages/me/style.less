@@ -1,3 +1,62 @@
-.home {
-  color: blue;
+@import "~src/style/mixin.less";
+@dd: 100rem;
+.me {
+  .section-top{
+    height: 250/@dd;
+    padding: 40/@dd 20/@dd 0;
+    color: #FFFFFF;
+    background: rgba(179, 179, 179, 0.7);
+    .head-img{
+      width: 60/@dd;
+      height: 60/@dd;
+      border-radius: 60/@dd;
+    }
+    .btn-eid{
+      display: inline-block;
+      padding: 4/@dd 14/@dd;
+      background: rgba(179, 179, 179, 0.6);
+      border-radius: 4/@dd;
+    }
+    .name{
+      margin-top: 20/@dd;
+      font-size: 20/@dd;
+    }
+    .text{
+      margin-top: 10/@dd;
+      .span-divide{
+        margin: 0 10/@dd;
+      }
+    }
+    .label{
+      margin-top: 10/@dd;
+      span{
+        display: inline-block;
+        margin-right: 10/@dd;
+        padding: 2/@dd 10/@dd;
+        background: rgba(179, 179, 179, 0.6);
+        border-radius: 8/@dd;
+        line-height: 1;
+      }
+    }
+  }
+  .tabs{
+    .link-tabs{
+      height: 40/@dd;
+      box-shadow: 0 1px 2px rgba(156, 156, 156, 0.2);
+    }
+    .link-t{
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 14/@dd;
+      color: #9C9C9C;
+    }
+    .link-span{
+      padding: 4/@dd 0;
+    }
+    .link-span-act{
+      color: red;
+      border-bottom: 2px solid red;
+    }
+  }
 }

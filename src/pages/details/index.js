@@ -4,7 +4,7 @@
  * @update: 2018/4/21
  */
 import React, {Component} from "react";
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
