@@ -38,7 +38,7 @@ class Me extends  Component {
           </div>
         </section>
         <section className="tabs">
-          <div className="link-tabs f-jc-ac">
+          <div className="link-tabs link-tabs-act f-jc-ac">
             <Link className="link-t"  to='/app/me/'><span className="link-span link-span-act">发布</span></Link>
             <Link className="link-t" to='/app/me/tab2'><span className="link-span">评论</span></Link>
           </div>
