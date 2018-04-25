@@ -15,10 +15,10 @@ export default class RouteConfig extends Component{
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={App}></Route>
+          <Route path="/app" component={App}></Route>
           <Route path="/details" component={Details}></Route>
           <Route path="/publish" component={Publish}></Route>
-          <Redirect to="/"/>
+          <Redirect to="/app"/>
         </Switch>
       </BrowserRouter>
     )
