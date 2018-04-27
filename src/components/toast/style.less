@@ -1,0 +1,45 @@
+/**
+* @desc: 文件描述
+* @author: zengtiansheng
+* @update: 2018/4/22
+*/
+@import "~src/style/mixin.less";
+@dd: 100rem;
+.comp-toast{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 10%;
+  display: inline-block;
+  text-align: center;
+  font-size: 14/@dd;
+  color: #FFFFFF;
+  padding: 4/@dd 20/@dd;
+}
+.comp-toast-span{
+  display: inline-block;
+  padding: 4/@dd 20/@dd;
+  border-radius: 4/@dd;
+  background: rgba(0,0,0,0.5);
+}
+.comp-toast-animaition-appear {
+  opacity: 0.01;
+}
+.comp-toast-animaition-appear.comp-toast-animaition-appear-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+.comp-toast-animaition-enter {
+  opacity: 0.01;
+}
+.comp-toast-animaition-enter.comp-toast-animaition-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+.comp-toast-animaition-leave {
+  opacity: 1;
+}
+.comp-toast-animaition-leave.comp-toast-animaition-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}

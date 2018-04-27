@@ -7,61 +7,50 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import './style.less'
 
-const PULL_DOWN_DIS = 100
-const PULL_DOWN_DIS_DEF = -20
+const BOTTOM_DIS = 100
 
 class PullToRefresh extends Component{
   static propTypes = {
+    footerMsg: PropTypes.string,
     isFooterLoading: PropTypes.bool,
     renderFooter: PropTypes.func,
     pullToRefresh: PropTypes.func,
     onEndReached: PropTypes.func,
   }
+  static defaultProps = {
+    isFooterLoading: false,
+    footerMsg: '加载更多...'
+  }
   state = {
     pullDownFlag: false // 下拉标志
   }
-  constructor(props) {
-    super(props)
-    this.touchStartPayeY = 0
-  }
-  onTouchMove = (e) => {
-    let scroll = document.documentElement.scrollTop
-    //e.touches[0].pageY
-  }
-  onTouchStart = (e) => {
-  }
-  onTouchEnd = (e) => {
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
   scrollListener() {
+    if (!this.props.isFooterLoading) {
+      return
+    }
     let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-    const sectionTopClientHeight = document.querySelector('#J_comp_pull_to_refresh').clientHeight
-    const bodyClientHeight = document.querySelector('body').clientHeight
-
-    console.log('---scroll--', scroll + bodyClientHeight)
-    console.log('---sectionTopClientHeight--', sectionTopClientHeight)
-
+    const pullRefreshClientHeight = document.querySelector('#J_comp_pull_to_refresh').clientHeight
+    const bodyHeight = document.querySelector('body').clientHeight
+    console.log(pullRefreshClientHeight)
+    if ((scroll + bodyHeight) > (pullRefreshClientHeight - BOTTOM_DIS)) {
+      this.props.onEndReached()
+    }
   }
   componentDidMount(){
     window.addEventListener('scroll', this.scrollListener.bind(this))
   }
   render() {
     return (
-      <div id="J_comp_pull_to_refresh" className="comp-pull-to-refresh" onTouchMove={this.onTouchMove} onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
-        <div className="heard-loadding">
-          <svg viewBox="0 0 32 32" width="32" height="32">
-            <circle id="spinner" cx="16" cy="16" r="10" fill="none"></circle>
-          </svg>
-        </div>
+      <div id="J_comp_pull_to_refresh" className="comp-pull-to-refresh">
         <div className="render-row">
           {
             this.props.renderRow()
           }
         </div>
-        {
-          this.props.isFooterLoading ? (
-            <div className="footer-loadding">Loading ...</div>
-          ) : null
-        }
+        <div className="footer-loadding">{this.props.footerMsg}</div>
       </div>
     )
   }

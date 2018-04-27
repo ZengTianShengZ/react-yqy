@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 // import { NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
+// import pullLoading from 'src/components/pullLoading'
+import toast from 'src/components/toast'
 import PullToRefreshView from 'src/components/pullToRefresh'
 import ListItemView from 'src/components/listItem'
 import './style.less'
@@ -20,7 +22,7 @@ class Home extends Component {
   }
   state = {
     refreshing: true,
-    isLoading: true,
+    isFooterLoading: true,
     height: document.documentElement.clientHeight,
     useBodyScroll: false,
     resData: {
@@ -115,6 +117,14 @@ class Home extends Component {
       ]
     }
   }
+  onEndReached() {
+    this.setState({isFooterLoading: false})
+    console.log('---onEndReached--')
+  }
+  testClick() {
+    // toast({msg: '网络请求出错', duration: 5000})
+    toast({msg: '网络请求出错'})
+  }
   componentDidMount() {
   }
   componentDidUpdate() {
@@ -134,9 +144,11 @@ class Home extends Component {
     }
     return (
       <section className="home">
+        <div onClick={this.testClick.bind(this)}>test click</div>
         <PullToRefreshView
           renderRow={row}
-          isFooterLoading={true}/>
+          onEndReached={this.onEndReached.bind(this)}
+          isFooterLoading={this.state.isFooterLoading}/>
       </section>
     )
   }
