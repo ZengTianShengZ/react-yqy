@@ -3,11 +3,15 @@
 * @author: zengtiansheng
 * @update: 2018/4/22
 */
+@import "~src/style/mixin.less";
+@dd: 100rem;
 .comp-pull-to-refresh {
+  padding-bottom: 25/@dd;
   .heard-loadding {
     position: fixed;
     left: 50%;
-    top: 10%;
+    top: 100/@dd;
+    z-index: 999;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
@@ -21,6 +25,7 @@
     animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite;
   }
   .footer-loadding{
+    margin: 25/@dd 0 50/@dd;
     font-size: 12/100rem;
     text-align: center;
   }

@@ -23,9 +23,9 @@ class Me extends  Component {
     sectionTopClientHeight: 0,
     fixedTopTabsFlag: false
   }
-  listtenerTopTabs() {
+  listenerTopTabs() {
     // window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-    let scroll = document.documentElement.scrollTop
+    let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
     if (scroll > this.state.sectionTopClientHeight) {
       this.setState({fixedTopTabsFlag: true})
     } else {
@@ -36,7 +36,7 @@ class Me extends  Component {
     setTimeout(() => {
       const sectionTopClientHeight = document.getElementById('J_section_top').clientHeight
       this.setState({sectionTopClientHeight})
-      window.addEventListener('scroll', this.listtenerTopTabs.bind(this))
+      window.addEventListener('scroll', this.listenerTopTabs.bind(this))
     }, 100)
   }
   render() {

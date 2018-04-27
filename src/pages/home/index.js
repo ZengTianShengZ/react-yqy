@@ -136,7 +136,7 @@ class Home extends Component {
       <section className="home">
         <PullToRefreshView
           renderRow={row}
-          isFooterLoading={false}/>
+          isFooterLoading={true}/>
       </section>
     )
   }
