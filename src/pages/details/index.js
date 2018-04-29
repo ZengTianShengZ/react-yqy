@@ -33,10 +33,15 @@ class Details extends Component {
   }
   state = {
     msg: '',
+    commentMsg: '',
     comment: [1,2,3,4,3]
   }
   btnAddClick() {
     this.props._add(1)
+  }
+  handleTextarea(event) {
+    let value = event.target.value;
+    this.setState({commentMsg: value})
   }
   render() {
     const data = this.props.item
@@ -92,7 +97,7 @@ class Details extends Component {
           }
         </div>
         <div className="footer f-jb-as">
-          <textarea className='textarea' rows="2" placeholder="写评论">ddsddsdsd</textarea>
+          <textarea className='textarea' value={this.state.commentMsg} onChange={this.handleTextarea.bind(this)} rows="2" placeholder="写评论"></textarea>
           <div className="btn-submit">发送</div>
         </div>
       </div>

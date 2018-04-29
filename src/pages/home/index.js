@@ -6,7 +6,7 @@
 import React, {Component} from "react";
 // import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-// import { NavLink} from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
 // import pullLoading from 'src/components/pullLoading'
@@ -145,6 +145,7 @@ class Home extends Component {
     return (
       <section className="home">
         <div onClick={this.testClick.bind(this)}>test click ssasae</div>
+        <Link to="/publish" className="btn-publish"><img src="btn-publish-icon.png" alt=""/></Link>
         <PullToRefreshView
           renderRow={row}
           onEndReached={this.onEndReached.bind(this)}
