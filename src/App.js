@@ -12,7 +12,7 @@ class App extends Component {
     changeRouter(url) {
       this.props.history.push(url);
     }
-﻿    componentWillMount() {
+    componentWillMount() {
       this.setState({
         pathname: '223232' // window.location.pathname
       })

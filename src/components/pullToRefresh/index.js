@@ -54,5 +54,8 @@ class PullToRefresh extends Component{
       </div>
     )
   }
+  componentWillUnmout() {
+    window.removeEventListener(this.scrollListener.bind(this))
+  }
 }
 export default PullToRefresh

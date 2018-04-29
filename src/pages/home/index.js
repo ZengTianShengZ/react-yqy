@@ -128,7 +128,7 @@ class Home extends Component {
   componentDidMount() {
   }
   componentDidUpdate() {
-    document.body.style.overflow = 'auto';
+    //document.body.style.overflow = 'auto';
   }
   render() {
     const row = () => {
@@ -144,7 +144,7 @@ class Home extends Component {
     }
     return (
       <section className="home">
-        <div onClick={this.testClick.bind(this)}>test click</div>
+        <div onClick={this.testClick.bind(this)}>test click ssasae</div>
         <PullToRefreshView
           renderRow={row}
           onEndReached={this.onEndReached.bind(this)}
