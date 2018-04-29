@@ -5,11 +5,11 @@
  */
 import React, {Component} from "react";
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom'
 import ImagePicker from 'antd-mobile/lib/image-picker';  // 加载 JS
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
 import 'antd-mobile/lib/image-picker/style/css';  // 加载 JS
+import './style.less'
 
 class Pubilsh extends Component {
   static propTypes = {
@@ -18,6 +18,7 @@ class Pubilsh extends Component {
   }
   state = {
     msg: '',
+    commentMsg: '',
     files: [{
       url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
       id: '2121',
@@ -27,33 +28,30 @@ class Pubilsh extends Component {
     }],
     multiple: false,
   }
-  btnAddClick() {
-    this.props._add(1)
-  }
   onChange = (files, type, index) => {
     console.log(files, type, index);
     this.setState({
       files,
     });
   }
+  handleTextarea(event) {
+    let value = event.target.value;
+    this.setState({commentMsg: value})
+  }
   render() {
-    console.log(this.props)
     const { files } = this.state;
     return (
-      <div>Pubilsh
+      <section className="publish">
+        <textarea className='textarea' value={this.state.commentMsg} onChange={this.handleTextarea.bind(this)} rows="6" placeholder="方圆两公里，分享身边事"></textarea>
         <ImagePicker
           files={files}
           onChange={this.onChange}
           onImageClick={(index, fs) => console.log(index, fs)}
-          selectable={files.length < 5}
+          selectable={files.length < 9}
           multiple={this.state.multiple}
         />
-        <div>
-          <Link to="/">home</Link>
-        </div>
-        <p>{this.props.countTest.num}</p>
-        <button onClick={this.btnAddClick.bind(this)}>_add</button>
-      </div>
+        <div className="btn-submit">分享</div>
+      </section>
     )
   }
 }
