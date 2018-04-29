@@ -1,0 +1,110 @@
+/**
+* @desc: 文件描述
+* @author: zengtiansheng
+* @update: 2018/4/22
+*/
+@import "~src/style/mixin.less";
+@dd: 100rem;
+@imgS: 1.15rem;
+.detail{
+  width: 100%;
+  height: 100%;
+  background: rgba(227, 229, 229, 0.3);
+  .detail-top{
+    padding: 8/@dd;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+    .top{
+      .head-img{
+        width: 45/@dd;
+        height: 45/@dd;
+        border-radius: 45/@dd;
+      }
+      .top-left{
+        margin-left: 10/@dd;
+      }
+      .name{
+        font-size: 16/@dd;
+      }
+      .time{
+        font-size: 12/@dd;
+      }
+      .top-right{
+        font-size: 12/@dd;
+        span{
+          float: right;
+        }
+      }
+    }
+    .content-text{
+      padding: 8/@dd 0;
+      font-size: 14/@dd;
+    }
+    .content-img{
+      .li-img{
+        display: inline-block;
+        width: 33.33333%;
+        padding: 2/@dd;
+        img {
+          width: 100%;
+          height: @imgS;
+        }
+      }
+    }
+  }
+  .comment{
+    .p-title{
+      padding: 4/@dd 8/@dd;
+      background: rgba(180, 180, 180, 0.2);
+    }
+    .comment-content{
+      padding: 8/@dd;
+    }
+    .comment-item{
+      .item-top{
+        .head-img{
+          width: 40/@dd;
+          height: 40/@dd;
+          border-radius: 40/@dd;
+        }
+        .top-left{
+          margin-left: 10/@dd;
+        }
+      }
+      .item-content{
+        margin-top: 10/@dd;
+        margin-left: 50/@dd;
+        .p-reply{
+          margin-top: 5/@dd;
+          padding: 2/@dd 2/@dd 0;
+          background: #FFFFFF;
+          .span-reply-name{
+            color: #1893b8;
+            margin-right: 5/@dd;
+          }
+        }
+      }
+    }
+  }
+  .footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 666;
+    width: 100%;
+    height: 50/@dd;
+    padding-top: 2/@dd;
+    box-shadow: 0 -1px 2px rgba(156, 156, 156, 0.2);
+    background: #FFFFFF;
+    font-size: 16/@dd;
+    .textarea{
+      width: 100%;
+      margin: 10/@dd;
+      font-size: 16/@dd;
+    }
+    .btn-submit{
+      width: 100/@dd;
+      margin-top: 10/@dd;
+      text-align: center;
+    }
+  }
+}
