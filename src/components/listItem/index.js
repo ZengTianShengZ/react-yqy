@@ -60,7 +60,7 @@ class ListItem extends Component {
     return (
       <div className="comp-list-item" onClick={this.goDetailsPage.bind(this, id)}>
         <div className="top f-js-ac">
-          <img className="head-img" src={attributes.headImgUrl}/>
+          <img className="head-img" src={attributes.headImgUrl} alt=''/>
           <div className="top-left f-js-as-dc">
             <span className="name">{attributes.nickName}</span>
             <span className="time">{time}</span>

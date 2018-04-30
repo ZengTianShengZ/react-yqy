@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import toast from 'src/components/toast'
 import {_add} from 'src/store/user/action'
 import API from 'src/api'
-import 'antd-mobile/lib/image-picker/style/css';  // 加载 JS
+import 'antd-mobile/lib/image-picker/style/css';
 import './style.less'
 
 class Pubilsh extends Component {
