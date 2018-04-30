@@ -9,6 +9,7 @@ import asyncComponent from 'src/utils/asyncComponent'
 import App from 'src/App'
 const Details = asyncComponent(() => import('src/pages/details'))
 const Publish = asyncComponent(() => import('src/pages/publish'))
+const Login = asyncComponent(() => import('src/pages/login'))
 
 export default class RouteConfig extends Component{
   render() {
@@ -18,6 +19,7 @@ export default class RouteConfig extends Component{
           <Route path="/app" component={App}></Route>
           <Route path="/details" component={Details}></Route>
           <Route path="/publish" component={Publish}></Route>
+          <Route path="/login" component={Login}></Route>
           <Redirect to="/app"/>
         </Switch>
       </BrowserRouter>

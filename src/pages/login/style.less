@@ -6,4 +6,55 @@
 @import "~src/style/mixin.less";
 @dd: 100rem;
 
-.login{}
+.login{
+  .top{
+    margin-top: 20/@dd;
+    .logo{
+      display: block;
+      width: 100/@dd;
+      height: 100/@dd;
+      margin: 0 auto;
+    }
+  }
+  .content{
+    margin-top: 40/@dd;
+    .form-tiem{
+      margin: 0 auto;
+      padding: 10/@dd 40/@dd;
+      border-bottom: 1px solid rgba(140, 140, 140, 0.2);
+      font-size: 16/@dd;
+      .span-icon{
+        font-size: 20/@dd;
+      }
+      .input{
+        margin-left: 10/@dd;
+        margin-top: 2/@dd;
+        font-size: 16/@dd;
+      }
+      .input-phone{
+        width: 200/@dd;
+      }
+      .input-verify-code{
+        width: 180/@dd;
+      }
+    }
+    .btn-login{
+      width: 90%;
+      height: 40/@dd;
+      margin: 40/@dd auto 0;
+      background: #d25c48;
+      border-radius: 6/@dd;
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 20/@dd;
+      line-height: 40/@dd;
+    }
+  }
+  .p-agreement{
+    margin-top: 80/@dd;
+    text-align: center;
+    span{
+      color: #1893b8;
+    }
+  }
+}
