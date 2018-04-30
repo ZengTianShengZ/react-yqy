@@ -24,11 +24,11 @@ class ListItem extends Component {
       }
     }
   }
-  goDetailsPage() {
-    this.props.history.push('/details/');
+  goDetailsPage(id) {
+    this.props.history.push('/details/' + id);
   }
   render() {
-    const {attributes, createdAt} = this.props.item
+    const {attributes, createdAt, id} = this.props.item
     let time = ''
     if (createdAt) {
       time = new Date(createdAt).getTime()
@@ -58,7 +58,7 @@ class ListItem extends Component {
       }
     }
     return (
-      <div className="comp-list-item" onClick={this.goDetailsPage.bind(this)}>
+      <div className="comp-list-item" onClick={this.goDetailsPage.bind(this, id)}>
         <div className="top f-js-ac">
           <img className="head-img" src={attributes.headImgUrl}/>
           <div className="top-left f-js-as-dc">

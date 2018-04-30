@@ -29,6 +29,7 @@ class Home extends Component {
     resData: {
       results: [
         {
+          id: '',
           createdAt: '',
           attributes: {
             listImg: []
@@ -54,6 +55,8 @@ class Home extends Component {
     pullLoading.close()
     if (res.success) {
       this.setState({resData: res.data})
+    } else {
+      toast({msg: res.msg})
     }
   }
   componentDidMount() {

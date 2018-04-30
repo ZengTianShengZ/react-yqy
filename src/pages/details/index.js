@@ -6,6 +6,8 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import API from 'src/api'
+import toast from 'src/components/toast'
 import {_add} from 'src/store/user/action'
 import './style.less'
 
@@ -32,7 +34,13 @@ class Details extends Component {
     },
   }
   state = {
-    msg: '',
+    resData: {
+      id: '',
+      createdAt: '',
+      attributes: {
+        listImg: []
+      }
+    },
     commentMsg: '',
     comment: [1,2,3,4,3]
   }
@@ -43,17 +51,28 @@ class Details extends Component {
     let value = event.target.value;
     this.setState({commentMsg: value})
   }
+  async getData() {
+    const res = await API.getNewsForId(this.props.match.params.id)
+    if (res.success) {
+      this.setState({resData: res.data})
+    } else {
+      toast({msg: res.msg})
+    }
+  }
+  componentDidMount() {
+    this.getData()
+  }
   render() {
-    const data = this.props.item
+    const {attributes, createdAt} = this.state.resData
     return (
       <div className="detail">
         <div className="detail-top">
           <div className="top f-jb-ac">
             <div className="f-js-ac">
-              <img className="head-img" src={data.headImg} alt="avan"/>
+              <img className="head-img" src={attributes.headImgUrl}/>
               <div className="top-left f-js-as-dc">
-                <span className="name">{data.name}</span>
-                <span className="time">{data.createTime}</span>
+                <span className="name">{attributes.nickName}</span>
+                <span className="time">221212</span>
               </div>
             </div>
             <div className="f-je-as-dc top-right">
@@ -61,11 +80,11 @@ class Details extends Component {
               <span>浏览：323233</span>
             </div>
           </div>
-          <div className="content-text">{data.msg}</div>
+          <div className="content-text">{attributes.newsMsg}</div>
           <div className="content-img clear">
             <ul className="clear">
               {
-                data.listImg.map((item, index) => {
+                attributes.listImg.map((item, index) => {
                   return (<li className="li-img clear" key={index}><img src={item} alt=""/></li>)
                 })
               }

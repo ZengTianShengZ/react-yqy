@@ -8,7 +8,17 @@ import AV from 'leancloud-storage';
 const DB_NEWS = 'News'
 
 class API {
-  getNowNews = async(option) => {
+  getNewsForId = async (id) => {
+    try {
+      const query = new AV.Query(DB_NEWS);
+      const res = await query.get(id)
+      return {success: true, msg: '', data: res}
+    } catch (err) {
+      console.log(err)
+      return {success: false, msg: '服务器错误，请稍后重试'}
+    }
+  }
+  getNowNews = async (option) => {
     const {pageNum, pageSize, userID} = option
     try {
       const query = new AV.Query(DB_NEWS);

@@ -17,7 +17,7 @@ export default class RouteConfig extends Component{
       <BrowserRouter>
         <Switch>
           <Route path="/app" component={App}></Route>
-          <Route path="/details" component={Details}></Route>
+          <Route path="/details/:id" component={Details}></Route>
           <Route path="/publish" component={Publish}></Route>
           <Route path="/login" component={Login}></Route>
           <Redirect to="/app"/>
