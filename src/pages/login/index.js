@@ -5,7 +5,7 @@
  */
 import React, {Component} from "react";
 import {connect} from 'react-redux';
-import {User} from 'leancloud-storage';
+import AV from 'leancloud-storage';
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
 import './style.less'
@@ -39,6 +39,14 @@ class Login extends Component {
       default:;
     }
   }
+  btnLoginClick() {
+    const {phone} = this.state.formData
+    AV.Cloud.requestSmsCode({mobilePhoneNumber: phone, sing: '23233232323223'}).then(function (success) {
+      console.log(success)
+    }, function (error) {
+      console.log(error)
+    });
+  }
   render() {
     return (
       <section className="login">
@@ -70,7 +78,7 @@ class Login extends Component {
               </div>
             </div>
           </div>
-          <div className="btn-login">登录</div>
+          <div className="btn-login" onClick={this.btnLoginClick.bind(this)}>登录</div>
         </div>
         <p className="p-agreement">登录注册代表您已同意 <span>《用户协议》</span></p>
       </section>

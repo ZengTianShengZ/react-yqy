@@ -5,10 +5,10 @@
 
 # testing
 /coverage
-
+/test
 # production
 /build
-
+/test/
 # misc
 .idea/*
 .idea/
