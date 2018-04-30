@@ -9,7 +9,8 @@ import {connect} from 'react-redux';
 import { Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
-// import pullLoading from 'src/components/pullLoading'
+import API from 'src/api'
+import pullLoading from 'src/components/pullLoading'
 import toast from 'src/components/toast'
 import PullToRefreshView from 'src/components/pullToRefresh'
 import ListItemView from 'src/components/listItem'
@@ -22,97 +23,16 @@ class Home extends Component {
   }
   state = {
     refreshing: true,
-    isFooterLoading: true,
+    isFooterLoading: false,
     height: document.documentElement.clientHeight,
     useBodyScroll: false,
     resData: {
       results: [
         {
-          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          name: '撒大声地',
-          msg: '的圣诞节的到来的数量多考虑考虑',
-          createTime: '3-23-12',
-          listImg: []
-        },
-        {
-          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          name: '撒大声地',
-          msg: '的圣诞节的到来的数量多考虑考虑',
-          createTime: '3-23-12',
-          listImg: [
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
-          ]
-        },
-        {
-          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          name: '撒大声地',
-          msg: '的圣诞节的到来的数量多考虑考虑',
-          createTime: '3-23-12',
-          listImg: [
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
-          ]
-        },
-        {
-          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          name: '撒大声地',
-          msg: '的圣诞节的到来的数量多考虑考虑',
-          createTime: '3-23-12',
-          listImg: [
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
-          ]
-        },
-        {
-          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          name: '撒大声地',
-          msg: '的圣诞节的到来的数量多考虑考虑',
-          createTime: '3-23-12',
-          listImg: [
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
-          ]
-        },
-        {
-          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          name: '撒大声地',
-          msg: '的圣诞节的到来的数量多考虑考虑',
-          createTime: '3-23-12',
-          listImg: [
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
-          ]
-        },
-        {
-          headImg: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          name: '撒大声地',
-          msg: '的圣诞节的到来的数量多考虑考虑',
-          createTime: '3-23-12',
-          listImg: [
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png'
-          ]
+          createdAt: '',
+          attributes: {
+            listImg: []
+          }
         }
       ]
     }
@@ -125,7 +45,19 @@ class Home extends Component {
     // toast({msg: '网络请求出错', duration: 5000})
     toast({msg: '网络请求出错'})
   }
+  async getData() {
+    pullLoading.loading()
+    const res = await API.getNowNews({
+      pageNum: 10,
+      pageSize: 0
+    })
+    pullLoading.close()
+    if (res.success) {
+      this.setState({resData: res.data})
+    }
+  }
   componentDidMount() {
+    this.getData()
   }
   componentDidUpdate() {
     //document.body.style.overflow = 'auto';
@@ -144,7 +76,6 @@ class Home extends Component {
     }
     return (
       <section className="home">
-        <div onClick={this.testClick.bind(this)}>test click ssasae</div>
         <Link to="/publish" className="btn-publish"><img src="btn-publish-icon.png" alt=""/></Link>
         <PullToRefreshView
           renderRow={row}

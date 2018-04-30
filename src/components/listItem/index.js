@@ -14,27 +14,34 @@ class ListItem extends Component {
   }
   static defaultProps = {
     item: {
-      headImg: '',
-      name: '',
-      msg: '',
-      createTime: '',
-      listImg: []
+      createdAt: '',
+      attributes: {
+        headImgUrl: '',
+        nickName: '',
+        newsMsg: '',
+        createdAt: '',
+        listImg: []
+      }
     }
   }
   goDetailsPage() {
     this.props.history.push('/details/');
   }
   render() {
-    const data = this.props.item
+    const {attributes, createdAt} = this.props.item
+    let time = ''
+    if (createdAt) {
+      time = new Date(createdAt).getTime()
+    }
     const liImg = () => {
-      if (data.listImg.length > 3) {
+      if (attributes.listImg.length > 3) {
         return (
           <ul className="f-js-ac">
-            <li className="li-img"><img src={data.listImg[0]} alt=""/></li>
-            <li className="li-img"><img src={data.listImg[1]} alt=""/></li>
+            <li className="li-img"><img src={attributes.listImg[0]} alt=""/></li>
+            <li className="li-img"><img src={attributes.listImg[1]} alt=""/></li>
             <li className="li-img">
-              <div className="more-img">+{data.listImg.length-3}</div>
-              <img src={data.listImg[2]} alt=""/>
+              <div className="more-img">+{attributes.listImg.length-3}</div>
+              <img src={attributes.listImg[2]} alt=""/>
             </li>
           </ul>
         )
@@ -42,7 +49,7 @@ class ListItem extends Component {
         return (
           <ul className="f-js-ac">
             {
-              data.listImg.map((item, index) => {
+              attributes.listImg.map((item, index) => {
                 return (<li className="li-img" key={index}><img src={item} alt=""/></li>)
               })
             }
@@ -53,13 +60,13 @@ class ListItem extends Component {
     return (
       <div className="comp-list-item" onClick={this.goDetailsPage.bind(this)}>
         <div className="top f-js-ac">
-          <img className="head-img" src={data.headImg} alt="avan"/>
+          <img className="head-img" src={attributes.headImgUrl}/>
           <div className="top-left f-js-as-dc">
-            <span className="name">{data.name}</span>
-            <span className="time">{data.createTime}</span>
+            <span className="name">{attributes.nickName}</span>
+            <span className="time">{time}</span>
           </div>
         </div>
-        <div className="content-text">{data.msg}</div>
+        <div className="content-text">{attributes.newsMsg}</div>
         <div className="content-img clear">
           {
             liImg()

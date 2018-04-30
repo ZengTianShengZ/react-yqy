@@ -32,6 +32,10 @@ class PullToRefresh extends Component{
       return
     }
     let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+    const J_comp_pull_to_refresh = document.querySelector('#J_comp_pull_to_refresh')
+    if(!J_comp_pull_to_refresh) {
+      return
+    }
     const pullRefreshClientHeight = document.querySelector('#J_comp_pull_to_refresh').clientHeight
     const bodyHeight = document.querySelector('body').clientHeight
     console.log(pullRefreshClientHeight)
