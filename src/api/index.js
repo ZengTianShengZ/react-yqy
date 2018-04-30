@@ -9,12 +9,16 @@ const DB_NEWS = 'News'
 
 class API {
   getNowNews = async(option) => {
-    const {pageNum, pageSize} = option
+    const {pageNum, pageSize, userID} = option
     try {
       const query = new AV.Query(DB_NEWS);
-      const now = new Date();
-      query.lessThanOrEqualTo('createdAt', now);//查询当前时间之前创建的
+      // const now = new Date();
+      // query.lessThanOrEqualTo('createdAt', now);//查询当前时间之前创建的
+      query.descending('createdAt');
       query.equalTo('show', 1);
+      if (userID) {
+        query.equalTo('userID', userID);
+      }
       const resCount = await query.count()
       query.limit(pageNum);// 最多返回 20 条结果
       query.skip(pageNum * pageSize);// 跳过 20 条结果
