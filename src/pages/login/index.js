@@ -5,6 +5,7 @@
  */
 import React, {Component} from "react";
 import {connect} from 'react-redux';
+import {User} from 'leancloud-storage';
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
 import './style.less'
@@ -18,7 +19,8 @@ class Login extends Component {
     msg: '',
     formData: {
       phone: '',
-      verifyCode: ''
+      verifyCode: '',
+      sex: '12'
     }
   }
   handleInput = (type, event) => {
@@ -30,6 +32,9 @@ class Login extends Component {
         break;
       case 'verifyCode':
         this.setState({formData:{verifyCode:value}})
+        break;
+      case 'sex':
+        this.setState({formData:{sex:value}})
         break;
       default:;
     }
@@ -51,6 +56,19 @@ class Login extends Component {
             <input className="input input-verify-code" type="text" maxLength="8" placeholder="请输入验证码" value={this.state.formData.verifyCode}
                    onChange={this.handleInput.bind(this, 'verifyCode')}/>
             <span>获取验证码</span>
+          </div>
+          <div className='form-tiem'>
+            新用户注册请选择性别，将为您分配花名
+            <div className="f-js-as form-radio">
+              <div className="form-radio-part1">
+                <input type="radio" name="sex" value={this.state.formData.sex} onChange={this.handleInput.bind(this, 'sex')} checked/>
+                <span className="form-radio-icon ion-android-person"></span>
+              </div>
+              <div>
+                <input type="radio" name="sex" value={this.state.formData.sex} onChange={this.handleInput.bind(this, 'sex')}/>
+                <span className="form-radio-icon ion-android-contact"></span>
+              </div>
+            </div>
           </div>
           <div className="btn-login">登录</div>
         </div>
