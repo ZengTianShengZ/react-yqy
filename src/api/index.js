@@ -6,8 +6,63 @@
 import AV from 'leancloud-storage';
 
 const DB_NEWS = 'News'
+const DB_COMMENT = 'Comment'
 
 class API {
+  getComment = async (option) => {
+    const {pageNum, pageSize, newsID} = option
+    try {
+      const query = new AV.Query(DB_COMMENT);
+      query.equalTo('newsID', newsID);
+      query.descending('createdAt');
+      query.equalTo('show', 1);
+      const resCount = await query.count()
+      query.limit(pageNum);// 最多返回 20 条结果
+      query.skip(pageNum * pageSize);// 跳过 20 条结果
+      const res = await query.find()
+      return {
+        success: true,
+        msg: '',
+        data: {
+          pageNum,
+          pageSize,
+          totalCount: resCount,
+          results: res
+        }
+      }
+    } catch (err) {
+      console.log(err)
+      return {success: false, msg: '服务器错误，请稍后重试'}
+    }
+  }
+  comment = async (newsID, commentMsg, reply = {}) => {
+    try{
+      const Comment = AV.Object.extend(DB_COMMENT)
+      const comment = new Comment();
+      const rd = parseInt((Math.random() * 10), 10);
+      comment.set('newsID', newsID);
+      comment.set('userID', '1768244236' + rd);
+      comment.set('nickName', '曾田生' + rd);
+      comment.set('headImgUrl', 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png');
+      comment.set('show', 1);
+      comment.set('commentMsg', commentMsg);
+      comment.set('reply', {
+        userID: reply.userID,
+        nickName: reply.nickName,
+        headImgUrl: reply.headImgUrl,
+        replyMsg: reply.replyMsg
+      });
+      const res= await comment.save()
+      if (res.id) {
+        return {success: true, msg: '评论成功!'}
+      } else {
+        return {success: false, msg: '网络请求出错'}
+      }
+    } catch (err) {
+      console.log(err)
+      return {success: false, msg: '服务器错误，请稍后重试'}
+    }
+  }
   getNewsForId = async (id) => {
     try {
       const query = new AV.Query(DB_NEWS);

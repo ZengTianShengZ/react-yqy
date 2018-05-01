@@ -92,10 +92,6 @@ class Details extends Component {
       }
     };
   }
-  handleTextarea(event) {
-    let value = event.target.value;
-    this.setState({commentMsg: value})
-  }
   async getDetailData() {
     const res = await API.getNewsForId(this.props.match.params.id)
     if (res.success) {
@@ -104,12 +100,23 @@ class Details extends Component {
       toast({msg: res.msg})
     }
   }
-  componentDidMount() {
-    this.getDetailData()
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.state.commentData.results),
-      isLoading: false,
-    });
+  handleTextarea(event) {
+    let value = event.target.value;
+    this.setState({commentMsg: value})
+  }
+  async btnSubmitClick(replyData) {
+    const newsID = this.props.match.params.id
+    const commentMsg = this.state.commentMsg
+    if (!commentMsg) {
+      return
+    }
+    const res = await API.comment(newsID, commentMsg)
+    if (res.success) {
+      this.setState({commentMsg: ''})
+      toast({msg: res.msg})
+    } else {
+      toast({msg: res.msg})
+    }
   }
   onEndReached = (event) => {
     if (this.state.isLoading) {
@@ -122,6 +129,13 @@ class Details extends Component {
         isLoading: false,
       });
     }, 1000);
+  }
+  componentDidMount() {
+    this.getDetailData()
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this.state.commentData.results),
+      isLoading: false,
+    });
   }
   render() {
     const {attributes, createdAt} = this.state.resData
@@ -157,7 +171,7 @@ class Details extends Component {
           <p className="p-title">精彩评论</p>
           <div className="footer f-jb-as">
             <textarea className='textarea' value={this.state.commentMsg} onChange={this.handleTextarea.bind(this)} rows="2" placeholder="写评论"></textarea>
-            <div className="btn-submit">发送</div>
+            <div className="btn-submit" onClick={this.btnSubmitClick.bind(this)}>发送</div>
           </div>
         </div>
       )
