@@ -9,7 +9,7 @@ const DB_NEWS = 'News'
 const DB_COMMENT = 'Comment'
 
 class API {
-  getComment = async (option) => {
+  getCommentForId = async (option) => {
     const {pageNum, pageSize, newsID} = option
     try {
       const query = new AV.Query(DB_COMMENT);

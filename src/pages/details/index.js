@@ -47,47 +47,16 @@ class Details extends Component {
       },
       commentMsg: '',
       commentData: {
+        pageNum: 10,
+        pageSize: 0,
+        totalCount: '',
         results: [
           {
-            img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-            title: 'Meet hotel',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-            title: 'McDonald\'s invites you',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-            title: 'McDonald\'s invites you',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-            title: 'McDonald\'s invites you',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-            title: 'McDonald\'s invites you',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-            title: 'McDonald\'s invites you',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-            title: 'McDonald\'s invites you',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            title: 'Eat the week',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
+            createdAt: '',
+            attributes: {
+              reply: {}
+            }
+          }
         ]
       }
     };
@@ -96,6 +65,23 @@ class Details extends Component {
     const res = await API.getNewsForId(this.props.match.params.id)
     if (res.success) {
       this.setState({resData: res.data})
+    } else {
+      toast({msg: res.msg})
+    }
+  }
+  async getComment() {
+    const res = await API.getCommentForId({
+      pageNum: 10,
+      pageSize: 0,
+      newsID: this.props.match.params.id
+    })
+    if (res.success) {
+      // this.mData =
+      this.setState({commentData: res.data})
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.state.commentData.results),
+        isLoading: false,
+      });
     } else {
       toast({msg: res.msg})
     }
@@ -114,6 +100,7 @@ class Details extends Component {
     if (res.success) {
       this.setState({commentMsg: ''})
       toast({msg: res.msg})
+      this.getComment()
     } else {
       toast({msg: res.msg})
     }
@@ -123,23 +110,19 @@ class Details extends Component {
       return;
     }
     this.setState({ isLoading: true });
-    setTimeout(() => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows([...this.state.commentData.results, ...resultsData]),
-        isLoading: false,
-      });
-    }, 1000);
+    // setTimeout(() => {
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows([...this.state.commentData.results, ...resultsData]),
+    //     isLoading: false,
+    //   });
+    // }, 1000);
   }
   componentDidMount() {
     this.getDetailData()
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.state.commentData.results),
-      isLoading: false,
-    });
+    this.getComment()
   }
   render() {
     const {attributes, createdAt} = this.state.resData
-
     const header = () => {
       return (
         <div>
@@ -177,19 +160,22 @@ class Details extends Component {
       )
     }
     const row = (rowData, sectionID, rowID) => {
+      const {attributes, createdAt} = rowData
       return (
         <div key={rowID} className="comment-content">
           <div className="comment-item">
             <div className="item-top f-js-ac">
-              <img className="head-img" src="https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png" alt=""/>
+              <img className="head-img" src={attributes.headImgUrl} alt=""/>
               <div className="top-left f-js-as-dc">
-                <span className="name">田生</span>
-                <span className="time">12.12</span>
+                <span className="name">{attributes.nickName}</span>
+                <span className="time">12221112</span>
               </div>
             </div>
             <div className="item-content">
-              <p>电视里上课老师的上课老师的</p>
-              <p className="p-reply"><span className="span-reply-name">@咖啡店</span>说多了都是都是开说多了都离开的考虑离开</p>
+              <p>{attributes.commentMsg}</p>
+              {
+                attributes.reply.nickName? (<p className="p-reply"><span className="span-reply-name">@{attributes.reply.nickName}</span>{attributes.reply.replyMsg}</p>): ''
+              }
             </div>
           </div>
         </div>
