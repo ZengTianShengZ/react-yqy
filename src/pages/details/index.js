@@ -5,28 +5,11 @@
  */
 import React, {Component} from "react";
 import API from 'src/api'
+import Dialog from 'src/components/dialog'
 import ListView from 'antd-mobile/lib/list-view';  // 加载 JS
 import 'antd-mobile/lib/list-view/style/css';  // 加载 JS
 import './style.less'
 import toast from "../../components/toast";
-
-const resultsData = [
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-    title: 'Meet hotel',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-    title: 'McDonald\'s invites you',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-]
 
 class Details extends Component {
   constructor(props) {
@@ -38,6 +21,7 @@ class Details extends Component {
     this.state = {
       dataSource,
       isLoading: true,
+      isDialogShow: false,
       resData: {
         id: '',
         createdAt: '',
@@ -58,7 +42,8 @@ class Details extends Component {
             }
           }
         ]
-      }
+      },
+      replyData: {}
     };
   }
   async getDetailData() {
@@ -90,13 +75,18 @@ class Details extends Component {
     let value = event.target.value;
     this.setState({commentMsg: value})
   }
-  async btnSubmitClick(replyData) {
+  async btnSubmitClick() {
     const newsID = this.props.match.params.id
-    const commentMsg = this.state.commentMsg
+    let commentMsg = this.state.commentMsg
+    const replyData = this.state.replyData
     if (!commentMsg) {
       return
     }
-    const res = await API.comment(newsID, commentMsg)
+    if (commentMsg.indexOf(`@${replyData.nickName}:`) === 0) {
+      replyData.replyMsg = replyData.commentMsg
+      commentMsg = commentMsg.substring(commentMsg.indexOf(':') + 1)
+    }
+    const res = await API.comment(newsID, commentMsg, replyData)
     if (res.success) {
       this.setState({commentMsg: ''})
       toast({msg: res.msg})
@@ -104,6 +94,15 @@ class Details extends Component {
     } else {
       toast({msg: res.msg})
     }
+  }
+  commentRowClick(replyData) {
+    this.setState({replyData})
+    this.setState({isDialogShow: true})
+  }
+  dialogBtnReplyClick() {
+    const {nickName} = this.state.replyData
+    this.setState({commentMsg: `@${nickName}:`})
+    this.setState({isDialogShow: false})
   }
   onEndReached = (event) => {
     if (this.state.isLoading) {
@@ -156,13 +155,23 @@ class Details extends Component {
             <textarea className='textarea' value={this.state.commentMsg} onChange={this.handleTextarea.bind(this)} rows="2" placeholder="写评论"></textarea>
             <div className="btn-submit" onClick={this.btnSubmitClick.bind(this)}>发送</div>
           </div>
+          {
+            this.state.isDialogShow?(<div onClick={() => {this.setState({isDialogShow: false})}}>
+              <Dialog>
+              <div className="detail-page-dialog-content">
+                <p className="p-text1" onClick={this.dialogBtnReplyClick.bind(this)}>回复评论</p>
+                <p>删除评论</p>
+              </div>
+            </Dialog>
+            </div>): null
+          }
         </div>
       )
     }
     const row = (rowData, sectionID, rowID) => {
       const {attributes, createdAt} = rowData
       return (
-        <div key={rowID} className="comment-content">
+        <div key={rowID} className="comment-content" onClick={this.commentRowClick.bind(this, attributes)}>
           <div className="comment-item">
             <div className="item-top f-js-ac">
               <img className="head-img" src={attributes.headImgUrl} alt=""/>
