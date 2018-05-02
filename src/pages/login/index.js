@@ -7,6 +7,7 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import AV from 'leancloud-storage';
 import PropTypes from 'prop-types';
+import toast from 'src/components/toast'
 import {_add} from 'src/store/user/action'
 import './style.less'
 
@@ -20,32 +21,48 @@ class Login extends Component {
     formData: {
       phone: '',
       verifyCode: '',
-      sex: '12'
+      sex: 0
     }
   }
   handleInput = (type, event) => {
     let value = event.target.value;
-    console.log(value)
+    let formData = {...this.state.formData};
     switch(type){
       case 'phone':
-        this.setState({formData:{phone:value}})
+        formData.phone = value
         break;
       case 'verifyCode':
-        this.setState({formData:{verifyCode:value}})
+        formData.verifyCode = value
         break;
       case 'sex':
-        this.setState({formData:{sex:value}})
+        formData.sex = parseInt(value)
         break;
       default:;
     }
+    this.setState({formData})
   }
-  btnLoginClick() {
+  btnGetVerifyCode() {
     const {phone} = this.state.formData
-    AV.Cloud.requestSmsCode({mobilePhoneNumber: phone, sing: '23233232323223'}).then(function (success) {
+    AV.Cloud.requestSmsCode(phone).then(function (success) {
       console.log(success)
     }, function (error) {
       console.log(error)
     });
+  }
+  async btnLoginClick() {
+    const {phone, verifyCode} = this.state.formData
+    console.log(this.state.formData)
+    try {
+      const res = await AV.User.signUpOrlogInWithMobilePhone(phone, verifyCode)
+      console.log(res)
+      if (res.id) {
+        console.log(res.id)
+        // redux 做一些校验，重新 cookie
+      }
+    } catch (err) {
+      console.log(err)
+      toast({msg: '登录失败,请验证手机号或验证码是否正确'})
+    }
   }
   render() {
     return (
@@ -63,17 +80,17 @@ class Login extends Component {
             <span className="span-icon ion-android-mail"></span>
             <input className="input input-verify-code" type="text" maxLength="8" placeholder="请输入验证码" value={this.state.formData.verifyCode}
                    onChange={this.handleInput.bind(this, 'verifyCode')}/>
-            <span>获取验证码</span>
+            <span onClick={this.btnGetVerifyCode.bind(this)}>获取验证码</span>
           </div>
           <div className='form-tiem'>
             新用户注册请选择性别，将为您分配花名
-            <div className="f-js-as form-radio">
+            <div className="f-js-as form-radio" onChange={this.handleInput.bind(this, 'sex')}>
               <div className="form-radio-part1">
-                <input type="radio" name="sex" value={this.state.formData.sex} onChange={this.handleInput.bind(this, 'sex')} checked/>
+                <input type="radio" name="sex" value="1"/>
                 <span className="form-radio-icon ion-android-person"></span>
               </div>
               <div>
-                <input type="radio" name="sex" value={this.state.formData.sex} onChange={this.handleInput.bind(this, 'sex')}/>
+                <input type="radio" name="sex" value="2"/>
                 <span className="form-radio-icon ion-android-contact"></span>
               </div>
             </div>

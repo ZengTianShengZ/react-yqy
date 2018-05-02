@@ -4,11 +4,12 @@
  * @update: 2018/4/30
  */
 import AV from 'leancloud-storage';
+import BaseApi from './baseAPI'
 
 const DB_NEWS = 'News'
 const DB_COMMENT = 'Comment'
 
-class API {
+class API extends BaseApi{
   getCommentForId = async (option) => {
     const {pageNum, pageSize, newsID} = option
     try {
@@ -36,6 +37,7 @@ class API {
     }
   }
   comment = async (newsID, commentMsg, reply = {}) => {
+    //this.isCurrentUser();
     try{
       const Comment = AV.Object.extend(DB_COMMENT)
       const comment = new Comment();
