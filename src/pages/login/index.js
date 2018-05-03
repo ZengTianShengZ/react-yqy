@@ -7,6 +7,7 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import AV from 'leancloud-storage';
 import PropTypes from 'prop-types';
+import API from 'src/api'
 import toast from 'src/components/toast'
 import {_add} from 'src/store/user/action'
 import './style.less'
@@ -18,9 +19,10 @@ class Login extends Component {
   }
   state = {
     msg: '',
+    isFullInfo: true,
     formData: {
-      phone: '',
-      verifyCode: '',
+      phone: '17682442366',
+      verifyCode: '793550',
       sex: 0
     }
   }
@@ -50,19 +52,52 @@ class Login extends Component {
     });
   }
   async btnLoginClick() {
-    const {phone, verifyCode} = this.state.formData
-    console.log(this.state.formData)
+    const {phone, verifyCode, sex} = this.state.formData
+    let userId = ''
+    if (!this.state.isFullInfo) {
+      if (sex === 0) {
+        toast({msg: '首次登陆，请选择性别'})
+      } else {
+        this.fullInfomation(userId, sex)
+      }
+      return
+    }
     try {
       const res = await AV.User.signUpOrlogInWithMobilePhone(phone, verifyCode)
-      console.log(res)
-      if (res.id) {
-        console.log(res.id)
-        // redux 做一些校验，重新 cookie
+      userId = res.id
+      if (!userId) {
+        toast({msg: '登录出错'})
+        return
+      }
+      const resUser = await API.getUserForId(userId)
+      if (resUser.success) {
+        if (resUser.data.attributes.isFullInfo) {
+          toast({msg: '登录成功'})
+          this.props.history.go(-1)
+        } else {
+          if (sex === 0) {
+            this.setState({isFullInfo: false})
+            toast({msg: '首次登陆，请选择性别'})
+          } else {
+            this.fullInfomation(userId, sex)
+          }
+        }
+      } else {
+        toast({msg: '登录出错'})
       }
     } catch (err) {
       console.log(err)
       toast({msg: '登录失败,请验证手机号或验证码是否正确'})
     }
+  }
+  async fullInfomation(userId, sex) {
+    const res = await API.setDefaultUserInfo({userId, sex})
+    if (res.success) {
+      this.props.history.go(-1)
+    } else {
+      toast({msg: res.msg || '登录出错'})
+    }
+    console.log(res)
   }
   render() {
     return (

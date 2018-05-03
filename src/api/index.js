@@ -5,11 +5,43 @@
  */
 import AV from 'leancloud-storage';
 import BaseApi from './baseAPI'
+import getUserDefault from 'src/utils/getUserDefault'
 
 const DB_NEWS = 'News'
 const DB_COMMENT = 'Comment'
+const DB_USER = '_User'
 
 class API extends BaseApi{
+  setDefaultUserInfo = async (data) => {
+    try {
+      const user = AV.Object.createWithoutData(DB_USER, data.userId);
+      const {headImgUrl, nickName} = getUserDefault(data.sex)
+      user.set('headImgUrl', headImgUrl);
+      user.set('nickName', nickName);
+      user.set('userName', nickName);
+      user.set('sex', data.sex);
+      user.set('isFullInfo', 1);
+      const res= await user.save();
+      if (res.id) {
+        return {success: true, msg: ''}
+      } else {
+        return {success: false, msg: '网络请求出错'}
+      }
+    } catch (err) {
+      console.log(err)
+      return {success: false, msg: '服务器错误，请稍后重试'}
+    }
+  }
+  getUserForId = async (id) => {
+    try {
+      const query = new AV.Query(DB_USER);
+      const res = await query.get(id)
+      return {success: true, msg: '', data: res}
+    } catch (err) {
+      console.log(err)
+      return {success: false, msg: '服务器错误，请稍后重试'}
+    }
+  }
   getCommentForId = async (option) => {
     const {pageNum, pageSize, newsID} = option
     try {

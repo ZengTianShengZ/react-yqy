@@ -20,15 +20,15 @@ const defBoyName = ['刘备', '玄德', '诸葛亮', '孔明', '关羽', '云长
   '曹操', '孟德', '乐进', '文谦', '李典', '曼成', '曹仁', '子孝', '曹洪', '子廉', '夏侯敦', '元让', '夏侯渊']
 const defGirlName = ['林黛玉', '薛宝钗', '贾元春', '贾迎春', '贾探春', '贾惜春', '李纨', '妙玉', '史湘云', '王熙凤', '贾巧姐', '秦可卿', '晴雯', '麝月',
   '袭人', '鸳鸯', '雪雁', '紫鹃', '碧痕', '平儿', '香菱', '金钏', '司棋', '抱琴', '刘姥姥']
-const getDef = (sex = 'BOY') => {
-  let name = ''
-  const ava = defAva[parseInt(Math.random() * 10)]
-  if (sex === 'BOY') {
-    name = defBoyName[parseInt(Math.random() * 45)]
-  } else {
-    name = defGirlName[parseInt(Math.random() * 25)]
+const getDef = (sex = 1) => {
+  let nickName = ''
+  const headImgUrl = defAva[parseInt(Math.random() * 10, 10)]
+  if (sex === 1) { // boy
+    nickName = defBoyName[parseInt(Math.random() * 45, 10)]
+  } else { // girl
+    nickName = defGirlName[parseInt(Math.random() * 25, 10)]
   }
-  return {ava, name}
+  return {headImgUrl, nickName}
 }
 
 export default getDef
