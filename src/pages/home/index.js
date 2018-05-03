@@ -10,6 +10,7 @@ import { Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {_add} from 'src/store/user/action'
 import API from 'src/api'
+import AV from 'leancloud-storage';
 import pullLoading from 'src/components/pullLoading'
 import toast from 'src/components/toast'
 import PullToRefreshView from 'src/components/pullToRefresh'
@@ -65,6 +66,10 @@ class Home extends Component {
   componentDidUpdate() {
     //document.body.style.overflow = 'auto';
   }
+  btnclickTest() {
+    const currentUser = AV.User.current();
+    console.log(currentUser)
+  }
   render() {
     const row = () => {
       return (
@@ -79,6 +84,7 @@ class Home extends Component {
     }
     return (
       <section className="home">
+        <div onClick={this.btnclickTest.bind(this)}>btnclickTest</div>
         <Link to="/publish" className="btn-publish"><img src="btn-publish-icon.png" alt=""/></Link>
         <PullToRefreshView
           renderRow={row}

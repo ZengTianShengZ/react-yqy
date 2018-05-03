@@ -7,7 +7,6 @@ import React, {Component} from "react";
 import { Switch, Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {_add} from "../../store/user/action";
 import asyncComponent from "../../utils/asyncComponent";
 import './style.less'
 
@@ -16,15 +15,13 @@ const Tab2Comment = asyncComponent(() => import('./tab2-comment'))
 
 class Me extends  Component {
   static propTypes = {
-    countTest: PropTypes.object,
-    _add: PropTypes.func,
+    $GET_USER: PropTypes.object
   }
   state = {
     sectionTopClientHeight: 0,
     fixedTopTabsFlag: false
   }
   listenerTopTabs() {
-    // window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
     let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
     if (scroll > this.state.sectionTopClientHeight) {
       this.setState({fixedTopTabsFlag: true})
@@ -44,17 +41,17 @@ class Me extends  Component {
       <section className="me">
         <section id="J_section_top" className="section-top">
           <div className="head f-jb-ac">
-            <img className="head-img" src="https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png" alt=""/>
+            <img className="head-img" src={this.props.$GET_USER.headImgUrl} alt=""/>
             <div className="btn-eid">编辑</div>
           </div>
-          <div className="name">曾田生</div>
+          <div className="name">{this.props.$GET_USER.nickName}</div>
           <div className="text">
             <span>发布 23</span>
             <span className="span-divide">|</span>
             <span>评论 23</span>
           </div>
           <div className="label">
-            <span>收款</span><span>两份</span><span>四大皆空</span><span>kkdkii</span>
+            <span>{this.props.$GET_USER.sex===1?'男':'女'}</span><span>收款</span><span>两份</span><span>四大皆空</span><span>kkdkii</span>
           </div>
         </section>
         <section className="tabs">
@@ -74,7 +71,5 @@ class Me extends  Component {
   }
 }
 export default connect(state => ({
-  countTest: state.countTest
-}), {
-  _add
-})(Me)
+  $GET_USER: state.$GET_USER
+}), null)(Me)

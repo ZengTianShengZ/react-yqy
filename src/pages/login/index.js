@@ -9,13 +9,12 @@ import AV from 'leancloud-storage';
 import PropTypes from 'prop-types';
 import API from 'src/api'
 import toast from 'src/components/toast'
-import {_add} from 'src/store/user/action'
+import {ACTION_SET_USER} from 'src/store/user/action'
 import './style.less'
 
 class Login extends Component {
   static propTypes = {
-    countTest: PropTypes.object.isRequired,
-    _add: PropTypes.func.isRequired,
+    ACTION_SET_USER: PropTypes.func.isRequired,
   }
   state = {
     msg: '',
@@ -93,11 +92,11 @@ class Login extends Component {
   async fullInfomation(userId, sex) {
     const res = await API.setDefaultUserInfo({userId, sex})
     if (res.success) {
+      this.props.ACTION_SET_USER()
       this.props.history.go(-1)
     } else {
       toast({msg: res.msg || '登录出错'})
     }
-    console.log(res)
   }
   render() {
     return (
@@ -138,8 +137,6 @@ class Login extends Component {
   }
 }
 
-export default connect(state => ({
-  countTest: state.countTest
-}), {
-  _add
+export default connect(null, {
+  ACTION_SET_USER
 })(Login)
