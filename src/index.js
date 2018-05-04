@@ -16,8 +16,6 @@ AV.init({
   appId: APP_ID,
   appKey: APP_KEY
 });
-
-
 FastClick.attach(document.body);
 
 const render = Component => {
@@ -31,6 +29,7 @@ const render = Component => {
   )
 }
 render(Route)
+
 if (module.hot) {
   module.hot.accept('./router/', () => {
     render(Route)

@@ -30,11 +30,14 @@ export const countTest = (state = defaultState, action = {}) => {
 }
 
 export const $GET_USER = (state = defaultState, action ={}) => {
-  console.log('----$GET_USER----')
   switch (action.type) {
     case user.SETUSER:
-      const {id, attributes} = AV.User.current();
-      return {...state, ...attributes, ...{id}};
+      if (AV.User.current()) {
+        const {id, attributes} = AV.User.current();
+        return {...state, ...attributes, ...{id}};
+      } else {
+        return state
+      }
     default:
       return state
   }
