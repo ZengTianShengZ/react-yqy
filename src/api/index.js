@@ -113,8 +113,6 @@ class API extends BaseApi{
     const {pageNum, pageSize, userID} = option
     try {
       const query = new AV.Query(DB_NEWS);
-      // const now = new Date();
-      // query.lessThanOrEqualTo('createdAt', now);//查询当前时间之前创建的
       query.descending('createdAt');
       query.equalTo('show', 1);
       if (userID) {

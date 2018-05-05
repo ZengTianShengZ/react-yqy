@@ -9,9 +9,8 @@ import API from 'src/api'
 import pullLoading from 'src/components/pullLoading'
 import toast from 'src/components/toast'
 import ListView from 'antd-mobile/lib/list-view';  // 加载 JS
-import PullToRefreshView from 'src/components/pullToRefresh'
 import ListItemView from 'src/components/listItem'
-import 'antd-mobile/lib/list-view/style/css';  // 加载 JS
+import 'antd-mobile/lib/list-view/style/css';
 import './style.less'
 
 class Home extends Component {
