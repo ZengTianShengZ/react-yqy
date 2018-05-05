@@ -6,20 +6,34 @@ const Home = asyncComponent(() => import('./pages/home'))
 const Me = asyncComponent(() => import('./pages/me'))
 
 class App extends Component {
-    static = {
-      pathname: '123'
+    state = {
+      tab1Act: true,
+      tab2Act: false,
     }
     changeRouter(url) {
       this.props.history.push(url);
     }
-    componentWillMount() {
-      this.setState({
-        pathname: '223232' // window.location.pathname
-      })
+    setTabAct() {
+      let pathname = window.location.pathname
+      if (pathname.indexOf('/app/me/') >=0) {
+        this.setState({
+          tab1Act: false,
+          tab2Act: true
+        })
+      } else {
+        this.setState({
+          tab1Act: true,
+          tab2Act: false
+        })
+      }
+    }
+﻿    componentWillMount() {
+      this.setTabAct()
+    }
+    componentWillReceiveProps() {
+      this.setTabAct()
     }
     render() {
-        const isRouterMate = (name) => (window.location.pathname.indexOf(name) > -1)
-        console.log(window.location.pathname)
         return (
           <section className="section-app">
             <Switch>
@@ -28,11 +42,11 @@ class App extends Component {
             </Switch>
             <footer className="footer">
               <ul className="f-jc-ac">
-                <li className={`li-footer f-jc-ac-dc ${this.static.pathname}`} onClick={this.changeRouter.bind(this, '/app/')}>
+                <li className={`li-footer f-jc-ac-dc ${this.state.tab1Act?'active-router':''}`} onClick={this.changeRouter.bind(this, '/app/')}>
                   <span className="span-icon icon-home"></span>
                   ﻿<span className="span-text">主页</span>
                 </li>
-                <li className={`li-footer f-jc-ac-dc ${isRouterMate('/me')?'active-router':''}`} onClick={this.changeRouter.bind(this, '/app/me/')}>
+                <li className={`li-footer f-jc-ac-dc ${this.state.tab2Act?'active-router':''}`} onClick={this.changeRouter.bind(this, '/app/me/')}>
                   <span className="span-icon icon-me"></span>
                   ﻿<span className="span-text">我的</span>
                 </li>

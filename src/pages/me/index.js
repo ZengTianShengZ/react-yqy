@@ -18,6 +18,8 @@ class Me extends  Component {
     $GET_USER: PropTypes.object
   }
   state = {
+    tab1Act: true,
+    tab2Act: false,
     sectionTopClientHeight: 0,
     fixedTopTabsFlag: false
   }
@@ -33,6 +35,24 @@ class Me extends  Component {
     if (!this.props.$GET_USER.id) {
       this.props.history.push('/login/');
     }
+    this.setTabAct()
+  }
+  setTabAct() {
+    let pathname = window.location.pathname
+    if (pathname.indexOf('/app/me/tab2') >=0) {
+      this.setState({
+        tab1Act: false,
+        tab2Act: true
+      })
+    } else {
+      this.setState({
+        tab1Act: true,
+        tab2Act: false
+      })
+    }
+  }
+  componentWillReceiveProps() {
+    this.setTabAct()
   }
 ﻿  componentDidMount(){
     setTimeout(() => {
@@ -45,24 +65,27 @@ class Me extends  Component {
     return (
       <section className="me">
         <section id="J_section_top" className="section-top">
-          <div className="head f-jb-ac">
-            <img className="head-img" src={this.props.$GET_USER.headImgUrl} alt=""/>
-            <div className="btn-eid">编辑</div>
-          </div>
-          <div className="name">{this.props.$GET_USER.nickName}</div>
-          <div className="text">
-            <span>发布 23</span>
-            <span className="span-divide">|</span>
-            <span>评论 23</span>
-          </div>
-          <div className="label">
-            <span>{this.props.$GET_USER.sex===1?'男':'女'}</span><span>收款</span><span>两份</span><span>四大皆空</span><span>kkdkii</span>
+          <div className="bg"></div>
+          <div className="content">
+            <div className="head f-jb-ac">
+              <img className="head-img" src={this.props.$GET_USER.headImgUrl} alt=""/>
+              <div className="btn-eid">编辑</div>
+            </div>
+            <div className="name">{this.props.$GET_USER.nickName}</div>
+            <div className="text">
+              <span>发布 23</span>
+              <span className="span-divide">|</span>
+              <span>评论 23</span>
+            </div>
+            <div className="label">
+              <span><i className={`i-icon ${this.props.$GET_USER.sex===1?'icon-boy':'icon-girl'}`}></i></span><span>收款</span><span>两份</span><span>四大皆空</span><span>kkdkii</span>
+            </div>
           </div>
         </section>
         <section className="tabs">
           <div className={`link-tabs f-jc-ac ${this.state.fixedTopTabsFlag?'link-tabs-act':''}`}>
-            <Link className="link-t"  to='/app/me/'><span className="link-span link-span-act">发布</span></Link>
-            <Link className="link-t" to='/app/me/tab2'><span className="link-span">评论</span></Link>
+            <Link className="link-t"  to='/app/me/'><span className={`link-span ${this.state.tab1Act?'link-span-act': ''}`}>发布</span></Link>
+            <Link className="link-t" to='/app/me/tab2'><span className={`link-span ${this.state.tab2Act?'link-span-act': ''}`}>评论</span></Link>
           </div>
           <div className={`${this.state.fixedTopTabsFlag?'content':''}`}>
             <Switch>

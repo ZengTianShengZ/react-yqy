@@ -99,6 +99,32 @@ class API extends BaseApi{
       return {success: false, msg: '服务器错误，请稍后重试'}
     }
   }
+  getNewsForUserComment = async (option) => {
+    const {pageNum, pageSize, userID} = option
+    try {
+      const query = new AV.Query(DB_COMMENT);
+      query.descending('createdAt');
+      query.equalTo('show', 1);
+      query.equalTo('userID', userID);
+      const resCount = await query.count()
+      query.limit(pageNum);// 最多返回 20 条结果
+      query.skip(pageNum * pageSize);// 跳过 20 条结果
+      const res = await query.find()
+      return {
+        success: true,
+        msg: '',
+        data: {
+          pageNum,
+          pageSize,
+          totalCount: resCount,
+          results: res
+        }
+      }
+    } catch (err) {
+      console.log(err)
+      return {success: false, msg: '服务器错误，请稍后重试'}
+    }
+  }
   getNewsForId = async (id) => {
     try {
       const query = new AV.Query(DB_NEWS);

@@ -109,7 +109,7 @@ class Home extends Component {
     }
     return (
       <section className="home">
-        <Link to="/publish" className="btn-publish"><img src="btn-publish-icon.png" alt=""/></Link>
+        <Link to="/publish" className="btn-publish"><img src="http://oyn5he3v2.bkt.clouddn.com/add_icon_1121.png" alt=""/></Link>
         <ListView
           ref={el => this.lv = el}
           dataSource={this.state.dataSource}
