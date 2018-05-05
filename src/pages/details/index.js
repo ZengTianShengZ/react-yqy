@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import API from 'src/api'
 import Dialog from 'src/components/dialog'
 import ListView from 'antd-mobile/lib/list-view';  // 加载 JS
+import CommentItem from 'src/components/commentItem';  // 加载 JS
 import 'antd-mobile/lib/list-view/style/css';  // 加载 JS
 import './style.less'
 import toast from "../../components/toast";
@@ -20,13 +21,17 @@ class Details extends Component {
   constructor(props) {
     super(props);
     const dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
+      rowHasChanged: (row1, row2) => row1 === row2,
     });
-
     this.state = {
       dataSource,
       isLoading: true,
       isDialogShow: false,
+      sendData: {
+        pageNum: 7,
+        pageSize: 0,
+        newsID: this.props.match.params.id
+      },
       resData: {
         id: '',
         createdAt: '',
@@ -35,10 +40,11 @@ class Details extends Component {
         }
       },
       commentMsg: '',
+      replyCommentData: [],
       commentData: {
         pageNum: 10,
         pageSize: 0,
-        totalCount: '',
+        totalCount: 0,
         results: [
           {
             createdAt: '',
@@ -61,15 +67,35 @@ class Details extends Component {
   }
   async getComment() {
     const res = await API.getCommentForId({
-      pageNum: 10,
+      pageNum: 7,
       pageSize: 0,
       newsID: this.props.match.params.id
     })
     if (res.success) {
-      // this.mData =
       this.setState({commentData: res.data})
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(this.state.commentData.results),
+        isLoading: false,
+      });
+    } else {
+      toast({msg: res.msg})
+    }
+  }
+  async getMoreComment() {
+    const sendData = this.state.sendData
+    sendData.pageSize += 1
+    console.log(sendData)
+    const res = await API.getCommentForId(sendData)
+    if (res.success) {
+      const commentData = {
+        pageNum: 10,
+        pageSize: res.data.pageSize,
+        totalCount: res.data.totalCount,
+        results: [...this.state.commentData.results, ...res.data.results]
+      }
+      this.setState({commentData})
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows([...this.state.commentData.results]),
         isLoading: false,
       });
     } else {
@@ -97,9 +123,10 @@ class Details extends Component {
     }
     const res = await API.comment(newsID, commentMsg, replyData, this.props.$GET_USER)
     if (res.success) {
-      this.setState({commentMsg: ''})
+      console.log(res.data)
       toast({msg: res.msg})
-      this.getComment()
+      this.setState({commentMsg: ''})
+      this.setState({replyCommentData: [...res.data, ...this.state.replyCommentData]})
     } else {
       toast({msg: res.msg})
     }
@@ -114,16 +141,12 @@ class Details extends Component {
     this.setState({isDialogShow: false})
   }
   onEndReached = (event) => {
-    if (this.state.isLoading) {
+    const {pageNum, pageSize, totalCount} = this.state.commentData
+    if (totalCount <= (pageNum * pageSize) || this.state.isLoading) {
       return;
     }
     this.setState({ isLoading: true });
-    // setTimeout(() => {
-    //   this.setState({
-    //     dataSource: this.state.dataSource.cloneWithRows([...this.state.commentData.results, ...resultsData]),
-    //     isLoading: false,
-    //   });
-    // }, 1000);
+    this.getMoreComment()
   }
   componentDidMount() {
     this.getDetailData()
@@ -160,6 +183,11 @@ class Details extends Component {
             </div>
           </div>
           <p className="p-title">精彩评论</p>
+          {
+            this.state.replyCommentData.map((item, index) => {
+              return (<CommentItem key={index} item={item}/>)
+            })
+          }
           <div className="footer f-jb-as">
             <textarea className='textarea' value={this.state.commentMsg} onChange={this.handleTextarea.bind(this)} rows="2" placeholder="写评论"></textarea>
             <div className="btn-submit" onClick={this.btnSubmitClick.bind(this)}>发送</div>
@@ -180,33 +208,29 @@ class Details extends Component {
     const row = (rowData, sectionID, rowID) => {
       const {attributes, createdAt} = rowData
       return (
-        <div key={rowID} className="comment-content" onClick={this.commentRowClick.bind(this, attributes)}>
-          <div className="comment-item">
-            <div className="item-top f-js-ac">
-              <img className="head-img" src={attributes.headImgUrl} alt=""/>
-              <div className="top-left f-js-as-dc">
-                <span className="name">{attributes.nickName}</span>
-                <span className="time">12221112</span>
-              </div>
-            </div>
-            <div className="item-content">
-              <p>{attributes.commentMsg}</p>
-              {
-                attributes.reply.nickName? (<p className="p-reply"><span className="span-reply-name">@{attributes.reply.nickName}</span>{attributes.reply.replyMsg}</p>): ''
-              }
-            </div>
-          </div>
+        <div key={rowID} onClick={this.commentRowClick.bind(this, attributes)}>
+          <CommentItem item={rowData}/>
         </div>
       );
     };
+    const footer = () => {
+      const {pageNum, pageSize, totalCount} = this.state.commentData
+      if (totalCount <= (pageNum * pageSize)) {
+        return null
+      } else {
+        return (
+          <div style={{ padding: 20,marginBottom:40,textAlign: 'center' }}>
+            {this.state.isLoading ? 'Loading...' : 'Loaded'}
+          </div>
+        )
+      }
+    }
     return (
       <ListView
         ref={el => this.lv = el}
         dataSource={this.state.dataSource}
         renderHeader={header}
-        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-          {this.state.isLoading ? 'Loading...' : 'Loaded'}
-        </div>)}
+        renderFooter={footer}
         renderRow={row}
         className="detail"
         pageSize={8}

@@ -87,7 +87,10 @@ class API extends BaseApi{
       });
       const res= await comment.save()
       if (res.id) {
-        return {success: true, msg: '评论成功!'}
+        return {success: true, msg: '评论成功!', data:[{
+            createdAt: res.createdAt,
+            attributes: res.attributes
+          }]}
       } else {
         return {success: false, msg: '网络请求出错'}
       }
