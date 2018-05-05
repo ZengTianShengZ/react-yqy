@@ -6,6 +6,7 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {formatDate} from 'src/utils/index';
 import API from 'src/api'
 import Dialog from 'src/components/dialog'
 import ListView from 'antd-mobile/lib/list-view';  // 加载 JS
@@ -149,6 +150,7 @@ class Details extends Component {
   }
   render() {
     const {attributes, createdAt} = this.state.resData
+    const time = formatDate(createdAt)
     const header = () => {
       return (
         <div>
@@ -158,7 +160,7 @@ class Details extends Component {
                 <img className="head-img" src={attributes.headImgUrl} alt=''/>
                 <div className="top-left f-js-as-dc">
                   <span className="name">{attributes.nickName}</span>
-                  <span className="time">221212</span>
+                  <span className="time">{time}</span>
                 </div>
               </div>
               <div className="f-je-as-dc top-right">

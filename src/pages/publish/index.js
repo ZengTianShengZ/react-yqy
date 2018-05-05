@@ -5,11 +5,13 @@
  */
 import React, {Component} from "react";
 import {connect} from 'react-redux';
+import Toast from 'antd-mobile/lib/toast';
 import ImagePicker from 'antd-mobile/lib/image-picker';  // 加载 JS
 import PropTypes from 'prop-types';
 import toast from 'src/components/toast'
 import API from 'src/api'
 import 'antd-mobile/lib/image-picker/style/css';
+import 'antd-mobile/lib/toast/style/css';
 import './style.less'
 
 class Pubilsh extends Component {
@@ -41,9 +43,11 @@ class Pubilsh extends Component {
     if (!newsMsg) {
       return
     }
+    Toast.loading('发布中...', 50, null, true)
     const files = this.state.files
     const res = await API.publishNews({newsMsg, files}, this.props.$GET_USER)
     if (res.success) {
+      Toast.hide();
       toast({msg: res.msg})
       this.props.history.push('/app/');
     }

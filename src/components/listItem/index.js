@@ -6,6 +6,7 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom"
 import PropTypes from 'prop-types';
+import {formatDate} from 'src/utils/index';
 import './style.less'
 
 class ListItem extends Component {
@@ -29,10 +30,7 @@ class ListItem extends Component {
   }
   render() {
     const {attributes, createdAt, id} = this.props.item
-    let time = ''
-    if (createdAt) {
-      time = new Date(createdAt).getTime()
-    }
+    const time = formatDate(createdAt)
     const liImg = () => {
       if (attributes.listImg.length > 3) {
         return (

@@ -35,16 +35,36 @@
 // console.log(rowIDs)
 
 
+//
+// const NUM_ROWS = 20;
+// let pageIndex = 0;
+//
+// function genData(pIndex = 0) {
+//   const dataBlob = {};
+//   for (let i = 0; i < NUM_ROWS; i++) {
+//     const ii = (pIndex * NUM_ROWS) + i;
+//     dataBlob[`${ii}`] = `row - ${ii}`;
+//   }
+//   return dataBlob;
+// }
+// console.log(genData(3))
 
-const NUM_ROWS = 20;
-let pageIndex = 0;
+createdAt = "2018-05-05T15:34:59.418Z"
+time = new Date(createdAt)
+console.log(time.getMonth() + 1)
 
-function genData(pIndex = 0) {
-  const dataBlob = {};
-  for (let i = 0; i < NUM_ROWS; i++) {
-    const ii = (pIndex * NUM_ROWS) + i;
-    dataBlob[`${ii}`] = `row - ${ii}`;
-  }
-  return dataBlob;
-}
-console.log(genData(3))
+console.log(time.getDate())
+
+console.log(time.getHours())
+console.log(time.getMinutes())
+
+
+time = new Date()
+console.log(time.getMonth())
+
+console.log(time.getDate())
+
+console.log(time.getHours())
+console.log(time.getMinutes())
+
+

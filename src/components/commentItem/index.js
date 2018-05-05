@@ -5,6 +5,7 @@
  */
 import React, {Component} from "react";
 import PropTypes from 'prop-types';
+import {formatDate} from 'src/utils/index';
 import './style.less'
 class CommentItem extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ class CommentItem extends Component {
   }
   render() {
     const {attributes, createdAt} = this.props.item
-    let time =  new Date(createdAt).getTime()
+    const time = formatDate(createdAt)
     return (
       <div className="comp-comment-item comment-content">
         <div className="comment-item">
