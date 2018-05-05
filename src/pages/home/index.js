@@ -8,74 +8,122 @@ import { Link} from 'react-router-dom'
 import API from 'src/api'
 import pullLoading from 'src/components/pullLoading'
 import toast from 'src/components/toast'
+import ListView from 'antd-mobile/lib/list-view';  // 加载 JS
 import PullToRefreshView from 'src/components/pullToRefresh'
 import ListItemView from 'src/components/listItem'
+import 'antd-mobile/lib/list-view/style/css';  // 加载 JS
 import './style.less'
 
 class Home extends Component {
-  state = {
-    refreshing: true,
-    isFooterLoading: false,
-    height: document.documentElement.clientHeight,
-    useBodyScroll: false,
-    resData: {
-      results: [
-        {
-          id: '',
-          createdAt: '',
-          attributes: {
-            listImg: []
+  constructor(props) {
+    super(props);
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 === row2,
+    });
+    this.state = {
+      dataSource,
+      isLoading: true,
+      isDialogShow: false,
+      sendData: {
+        pageNum: 10,
+        pageSize: 0,
+        newsID: this.props.match.params.id
+      },
+      resData: {
+        pageNum: 10,
+        pageSize: 0,
+        totalCount: 0,
+        results: [
+          {
+            id: '',
+            createdAt: '',
+            attributes: {
+              listImg: []
+            }
           }
-        }
-      ]
+        ]
+      }
     }
-  }
-  onEndReached() {
-    this.setState({isFooterLoading: false})
-    console.log('---onEndReached--')
-  }
-  testClick() {
-    // toast({msg: '网络请求出错', duration: 5000})
-    toast({msg: '网络请求出错'})
   }
   async getData() {
     pullLoading.loading()
-    const res = await API.getNowNews({
-      pageNum: 10,
-      pageSize: 0
-    })
+    const res = await API.getNowNews(this.state.sendData)
     pullLoading.close()
     if (res.success) {
       this.setState({resData: res.data})
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.state.resData.results),
+        isLoading: false,
+      });
     } else {
       toast({msg: res.msg})
     }
   }
+  async getMoreNews() {
+    const sendData = this.state.sendData
+    sendData.pageSize += 1
+    const res = await API.getNowNews(sendData)
+    if (res.success) {
+      const resData = {
+        pageNum: 10,
+        pageSize: res.data.pageSize,
+        totalCount: res.data.totalCount,
+        results: [...this.state.resData.results, ...res.data.results]
+      }
+      this.setState({resData})
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.state.resData.results),
+        isLoading: false,
+      });
+    } else {
+      toast({msg: res.msg})
+    }
+  }
+  onEndReached = (event) => {
+    const {pageNum, pageSize, totalCount} = this.state.resData
+    if (totalCount <= (pageNum * pageSize) || this.state.isLoading) {
+      return;
+    }
+    this.setState({ isLoading: true });
+    this.getMoreNews()
+  }
   componentDidMount() {
     this.getData()
   }
-  componentDidUpdate() {
-    //document.body.style.overflow = 'auto';
-  }
   render() {
-    const row = () => {
+    const row = (rowData, sectionID, rowID) => {
       return (
-        <div>
-          {
-            this.state.resData.results.map((item, index) => {
-              return <ListItemView key={index} item={item}/>
-            })
-          }
-        </div>
-      )
+        <ListItemView key={rowID} item={rowData}/>
+      );
+    };
+    const footer = () => {
+      const {pageNum, pageSize, totalCount} = this.state.resData
+      if (totalCount <= (pageNum * pageSize)) {
+        return null
+      } else {
+        return (
+          <div style={{ padding: 20,marginBottom:40,textAlign: 'center' }}>
+            {this.state.isLoading ? 'Loading...' : 'Loaded'}
+          </div>
+        )
+      }
     }
     return (
       <section className="home">
         <Link to="/publish" className="btn-publish"><img src="btn-publish-icon.png" alt=""/></Link>
-        <PullToRefreshView
+        <ListView
+          ref={el => this.lv = el}
+          dataSource={this.state.dataSource}
+          renderFooter={footer}
           renderRow={row}
-          onEndReached={this.onEndReached.bind(this)}
-          isFooterLoading={this.state.isFooterLoading}/>
+          className="list-home"
+          pageSize={8}
+          useBodyScroll
+          onScroll={() => { console.log('scroll'); }}
+          scrollRenderAheadDistance={500}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={10}
+        />
       </section>
     )
   }

@@ -10,7 +10,7 @@ import API from 'src/api'
 import Dialog from 'src/components/dialog'
 import ListView from 'antd-mobile/lib/list-view';  // 加载 JS
 import CommentItem from 'src/components/commentItem';  // 加载 JS
-import 'antd-mobile/lib/list-view/style/css';  // 加载 JS
+import 'antd-mobile/lib/list-view/style/css';
 import './style.less'
 import toast from "../../components/toast";
 
@@ -66,11 +66,7 @@ class Details extends Component {
     }
   }
   async getComment() {
-    const res = await API.getCommentForId({
-      pageNum: 7,
-      pageSize: 0,
-      newsID: this.props.match.params.id
-    })
+    const res = await API.getCommentForId(this.state.sendData)
     if (res.success) {
       this.setState({commentData: res.data})
       this.setState({
@@ -84,7 +80,6 @@ class Details extends Component {
   async getMoreComment() {
     const sendData = this.state.sendData
     sendData.pageSize += 1
-    console.log(sendData)
     const res = await API.getCommentForId(sendData)
     if (res.success) {
       const commentData = {
@@ -197,7 +192,7 @@ class Details extends Component {
               <Dialog>
               <div className="detail-page-dialog-content">
                 <p className="p-text1" onClick={this.dialogBtnReplyClick.bind(this)}>回复评论</p>
-                <p>删除评论</p>
+                {/*<p>删除评论</p>*/}
               </div>
             </Dialog>
             </div>): null
@@ -235,7 +230,6 @@ class Details extends Component {
         className="detail"
         pageSize={8}
         useBodyScroll
-        onScroll={() => { console.log('scroll'); }}
         scrollRenderAheadDistance={500}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={10}
