@@ -4,6 +4,8 @@
  * @update: 2018/4/21
  */
 import React, {Component} from "react";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import API from 'src/api'
 import Dialog from 'src/components/dialog'
 import ListView from 'antd-mobile/lib/list-view';  // 加载 JS
@@ -12,6 +14,9 @@ import './style.less'
 import toast from "../../components/toast";
 
 class Details extends Component {
+  static propTypes = {
+    $GET_USER: PropTypes.object
+  }
   constructor(props) {
     super(props);
     const dataSource = new ListView.DataSource({
@@ -76,6 +81,10 @@ class Details extends Component {
     this.setState({commentMsg: value})
   }
   async btnSubmitClick() {
+    if (!this.props.$GET_USER.id) {
+      this.props.history.push('/login/')
+      return
+    }
     const newsID = this.props.match.params.id
     let commentMsg = this.state.commentMsg
     const replyData = this.state.replyData
@@ -86,7 +95,7 @@ class Details extends Component {
       replyData.replyMsg = replyData.commentMsg
       commentMsg = commentMsg.substring(commentMsg.indexOf(':') + 1)
     }
-    const res = await API.comment(newsID, commentMsg, replyData)
+    const res = await API.comment(newsID, commentMsg, replyData, this.props.$GET_USER)
     if (res.success) {
       this.setState({commentMsg: ''})
       toast({msg: res.msg})
@@ -210,5 +219,6 @@ class Details extends Component {
     );
   }
 }
-
-export default Details
+export default connect(state => ({
+  $GET_USER: state.$GET_USER
+}), null)(Details)

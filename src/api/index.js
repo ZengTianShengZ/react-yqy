@@ -68,16 +68,15 @@ class API extends BaseApi{
       return {success: false, msg: '服务器错误，请稍后重试'}
     }
   }
-  comment = async (newsID, commentMsg, reply = {}) => {
+  comment = async (newsID, commentMsg, reply = {}, user) => {
     //this.isCurrentUser();
     try{
       const Comment = AV.Object.extend(DB_COMMENT)
       const comment = new Comment();
-      const rd = parseInt((Math.random() * 10), 10);
       comment.set('newsID', newsID);
-      comment.set('userID', '1768244236' + rd);
-      comment.set('nickName', '曾田生' + rd);
-      comment.set('headImgUrl', 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png');
+      comment.set('userID', user.id);
+      comment.set('nickName', user.nickName);
+      comment.set('headImgUrl', user.headImgUrl);
       comment.set('show', 1);
       comment.set('commentMsg', commentMsg);
       comment.set('reply', {
@@ -137,7 +136,7 @@ class API extends BaseApi{
       return {success: false, msg: '服务器错误，请稍后重试'}
     }
   }
-  publishNews = async (data)  => {
+  publishNews = async (data, user)  => {
     const {files, newsMsg} = data
     const listImg = []
     try {
@@ -152,10 +151,9 @@ class API extends BaseApi{
       }
       const News = AV.Object.extend(DB_NEWS)
       const news = new News();
-      const rd = parseInt((Math.random() * 10), 10);
-      news.set('userID', '1768244236' + rd);
-      news.set('nickName', '曾田生' + rd);
-      news.set('headImgUrl', 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png');
+      news.set('userID', user.id);
+      news.set('nickName', user.nickName);
+      news.set('headImgUrl', user.headImgUrl);
       news.set('show', 1);
       news.set('type', 1);
       news.set('newsMsg', newsMsg);

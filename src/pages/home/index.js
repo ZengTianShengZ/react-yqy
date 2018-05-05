@@ -4,13 +4,8 @@
  * @update: 2018/4/21
  */
 import React, {Component} from "react";
-// import ReactDOM from 'react-dom';
-import {connect} from 'react-redux';
 import { Link} from 'react-router-dom'
-import PropTypes from 'prop-types';
-import {_add} from 'src/store/user/action'
 import API from 'src/api'
-import AV from 'leancloud-storage';
 import pullLoading from 'src/components/pullLoading'
 import toast from 'src/components/toast'
 import PullToRefreshView from 'src/components/pullToRefresh'
@@ -18,10 +13,6 @@ import ListItemView from 'src/components/listItem'
 import './style.less'
 
 class Home extends Component {
-  static propTypes = {
-    countTest: PropTypes.object.isRequired,
-    _add: PropTypes.func.isRequired,
-  }
   state = {
     refreshing: true,
     isFooterLoading: false,
@@ -66,10 +57,6 @@ class Home extends Component {
   componentDidUpdate() {
     //document.body.style.overflow = 'auto';
   }
-  btnclickTest() {
-    const currentUser = AV.User.current();
-    console.log(currentUser)
-  }
   render() {
     const row = () => {
       return (
@@ -84,7 +71,6 @@ class Home extends Component {
     }
     return (
       <section className="home">
-        <div onClick={this.btnclickTest.bind(this)}>btnclickTest</div>
         <Link to="/publish" className="btn-publish"><img src="btn-publish-icon.png" alt=""/></Link>
         <PullToRefreshView
           renderRow={row}
@@ -95,8 +81,4 @@ class Home extends Component {
   }
 }
 
-export default connect(state => ({
-  countTest: state.countTest
-}), {
-  _add
-})(Home)
+export default Home

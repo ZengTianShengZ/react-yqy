@@ -6,18 +6,15 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 import ImagePicker from 'antd-mobile/lib/image-picker';  // 加载 JS
-// import AV from 'leancloud-storage';
 import PropTypes from 'prop-types';
 import toast from 'src/components/toast'
-import {_add} from 'src/store/user/action'
 import API from 'src/api'
 import 'antd-mobile/lib/image-picker/style/css';
 import './style.less'
 
 class Pubilsh extends Component {
   static propTypes = {
-    countTest: PropTypes.object.isRequired,
-    _add: PropTypes.func.isRequired,
+    $GET_USER: PropTypes.object
   }
   state = {
     msg: '',
@@ -36,12 +33,16 @@ class Pubilsh extends Component {
     this.setState({newsMsg: value})
   }
   async btnShareClick() {
+    if (!this.props.$GET_USER.id) {
+      this.props.history.push('/login/')
+      return
+    }
     const newsMsg = this.state.newsMsg
     if (!newsMsg) {
       return
     }
     const files = this.state.files
-    const res = await API.publishNews({newsMsg, files})
+    const res = await API.publishNews({newsMsg, files}, this.props.$GET_USER)
     if (res.success) {
       toast({msg: res.msg})
       this.props.history.push('/app/');
@@ -66,7 +67,5 @@ class Pubilsh extends Component {
 }
 
 export default connect(state => ({
-  countTest: state.countTest
-}), {
-  _add
-})(Pubilsh)
+  $GET_USER: state.$GET_USER
+}), null)(Pubilsh)

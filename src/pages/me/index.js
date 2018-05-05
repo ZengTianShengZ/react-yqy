@@ -29,6 +29,11 @@ class Me extends  Component {
       this.setState({fixedTopTabsFlag: false})
     }
   }
+﻿  componentWillMount() {
+    if (!this.props.$GET_USER.id) {
+      this.props.history.push('/login/');
+    }
+  }
 ﻿  componentDidMount(){
     setTimeout(() => {
       const sectionTopClientHeight = document.getElementById('J_section_top').clientHeight

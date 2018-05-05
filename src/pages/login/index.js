@@ -14,7 +14,7 @@ import './style.less'
 
 class Login extends Component {
   static propTypes = {
-    ACTION_SET_USER: PropTypes.func.isRequired,
+    ACTION_SET_USER: PropTypes.func.isRequired
   }
   state = {
     msg: '',
@@ -72,7 +72,8 @@ class Login extends Component {
       if (resUser.success) {
         if (resUser.data.attributes.isFullInfo) {
           toast({msg: '登录成功'})
-          this.props.history.go(-1)
+          this.props.ACTION_SET_USER()
+          this.props.history.goBack();
         } else {
           if (sex === 0) {
             this.setState({isFullInfo: false})
@@ -93,7 +94,7 @@ class Login extends Component {
     const res = await API.setDefaultUserInfo({userId, sex})
     if (res.success) {
       this.props.ACTION_SET_USER()
-      this.props.history.go(-1)
+      this.props.history.goBack()
     } else {
       toast({msg: res.msg || '登录出错'})
     }

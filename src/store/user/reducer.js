@@ -32,6 +32,7 @@ export const countTest = (state = defaultState, action = {}) => {
 export const $GET_USER = (state = defaultState, action ={}) => {
   switch (action.type) {
     case user.SETUSER:
+      console.log('---$GET_USER---')
       if (AV.User.current()) {
         const {id, attributes} = AV.User.current();
         return {...state, ...attributes, ...{id}};
