@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: 组件按需加载实现工具
  * @author: zengtiansheng
  * @update: 2018/4/21
  */

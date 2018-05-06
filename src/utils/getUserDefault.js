@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: 花名生成器
  * @author: zengtiansheng
  * @update: 2018/4/30
  */

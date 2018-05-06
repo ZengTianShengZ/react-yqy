@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: 用户页面
  * @author: zengtiansheng
  * @update: 2018/4/21
  */
@@ -24,7 +24,7 @@ class Me extends  Component {
     fixedTopTabsFlag: false
   }
   listenerTopTabs() {
-    let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+    let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (scroll > this.state.sectionTopClientHeight) {
       this.setState({fixedTopTabsFlag: true})
     } else {
@@ -56,8 +56,8 @@ class Me extends  Component {
   }
 ﻿  componentDidMount(){
     setTimeout(() => {
-      const sectionTopClientHeight = document.getElementById('J_section_top').clientHeight
-      this.setState({sectionTopClientHeight})
+      const sectionTopClientHeight = document.getElementById('J_section_top').clientHeight;
+      this.setState({sectionTopClientHeight});
       window.addEventListener('scroll', this.listenerTopTabs.bind(this))
     }, 100)
   }

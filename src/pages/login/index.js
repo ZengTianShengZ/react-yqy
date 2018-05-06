@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: 登录页面
  * @author: zengtiansheng
  * @update: 2018/4/21
  */
@@ -36,9 +36,10 @@ class Login extends Component {
         formData.verifyCode = value
         break;
       case 'sex':
-        formData.sex = parseInt(value)
+        formData.sex = parseInt(value, 10)
         break;
-      default:;
+      default:
+        return;
     }
     this.setState({formData})
   }

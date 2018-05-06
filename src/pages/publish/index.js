@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: 动态发布页面
  * @author: zengtiansheng
  * @update: 2018/4/21
  */

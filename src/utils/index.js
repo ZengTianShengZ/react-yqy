@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: 工具类
  * @author: zengtiansheng
  * @update: 2018/5/5
  */

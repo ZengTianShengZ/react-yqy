@@ -15,7 +15,6 @@ class Toast extends Component {
   }
   render() {
     setTimeout(() => {
-      console.log('----setTimeout---')
       this.props.closeToast()
     }, this.props.duration || 2000)
     return (

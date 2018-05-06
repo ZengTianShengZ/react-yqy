@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: reducer
  * @author: zengtiansheng
  * @update: 2018/4/21
  */
@@ -16,17 +16,6 @@ const defaultState = {
   sex: '',
   userName: '',
   username: ''
-}
-export const countTest = (state = defaultState, action = {}) => {
-  switch (action.type) {
-    case '_ADD':
-      console.log(state)
-      console.log(action)
-      const num = state.num +  action.value
-      return {...state, ...{num}}
-    default:
-      return state
-  }
 }
 
 export const $GET_USER = (state = defaultState, action ={}) => {

@@ -1,5 +1,5 @@
 /**
- * @desc: 文件描述
+ * @desc: 动态详情页面
  * @author: zengtiansheng
  * @update: 2018/4/21
  */
@@ -203,7 +203,7 @@ class Details extends Component {
       )
     }
     const row = (rowData, sectionID, rowID) => {
-      const {attributes, createdAt} = rowData
+      const {attributes} = rowData
       return (
         <div key={rowID} onClick={this.commentRowClick.bind(this, attributes)}>
           <CommentItem item={rowData}/>
