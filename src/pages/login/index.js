@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import AV from 'leancloud-storage';
 import PropTypes from 'prop-types';
 import Toast from 'antd-mobile/lib/toast';
+import Dialog from 'src/components/dialog'
 import API from 'src/api'
 import toast from 'src/components/toast'
 import {ACTION_SET_USER} from 'src/store/user/action'
@@ -20,9 +21,10 @@ class Login extends Component {
   }
   state = {
     isFullInfo: true,
+    isDialogShow: false,
     formData: {
-      phone: '17682442366',
-      verifyCode: '793550',
+      phone: '',
+      verifyCode: '',
       sex: 0
     },
     codeMsg: {
@@ -62,6 +64,9 @@ class Login extends Component {
     setInterval(() => {
       // ...
     }, 1000)
+  }
+  btnUserXYClick() {
+    this.setState({isDialogShow: true})
   }
   async btnLoginClick() {
     Toast.loading('登录中...', 50, null, true)
@@ -153,7 +158,21 @@ class Login extends Component {
           </div>
           <div className="btn-login" onClick={this.btnLoginClick.bind(this)}>登录</div>
         </div>
-        <p className="p-agreement">登录注册代表您已同意 <span>《用户协议》</span></p>
+        <p className="p-agreement">登录注册代表您已同意 <span onClick={this.btnUserXYClick.bind(this)}>《用户协议》</span></p>
+        {
+          this.state.isDialogShow?(<div onClick={() => {this.setState({isDialogShow: false})}}>
+            <Dialog>
+              <div className="detail-page-dialog-content">
+                <p className="p-text1">用户协议</p>
+                <p className="p-text1">请践行社会主义核心价值观</p>
+                <p className="p-text1">富强、民主、文明、和谐</p>
+                <p className="p-text1">自由、平等、公正、法治</p>
+                <p className="p-text1">爱国、敬业、诚信、友善</p>
+                <p className="p-text1">如违反以上条例官方有权删除发布内容</p>
+              </div>
+            </Dialog>
+          </div>): null
+        }
       </section>
     )
   }

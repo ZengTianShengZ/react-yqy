@@ -7,6 +7,7 @@ import React, {Component} from "react";
 import { Switch, Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import Dialog from 'src/components/dialog'
 import asyncComponent from "../../utils/asyncComponent";
 import './style.less'
 
@@ -18,6 +19,7 @@ class Me extends  Component {
     $GET_USER: PropTypes.object
   }
   state = {
+    isDialogShow: false,
     tab1Act: true,
     tab2Act: false,
     sectionTopClientHeight: 0,
@@ -51,12 +53,19 @@ class Me extends  Component {
       })
     }
   }
+  btnEditClick() {
+   this.setState({isDialogShow: true})
+  }
   componentWillReceiveProps() {
     this.setTabAct()
   }
 ﻿  componentDidMount(){
     setTimeout(() => {
-      const sectionTopClientHeight = document.getElementById('J_section_top').clientHeight;
+      const J_section_top = document.getElementById('J_section_top')
+      if (!J_section_top) {
+        return
+      }
+      const sectionTopClientHeight = J_section_top.clientHeight;
       this.setState({sectionTopClientHeight});
       window.addEventListener('scroll', this.listenerTopTabs.bind(this))
     }, 100)
@@ -69,7 +78,7 @@ class Me extends  Component {
           <div className="content">
             <div className="head f-jb-ac">
               <img className="head-img" src={this.props.$GET_USER.headImgUrl} alt=""/>
-              <div className="btn-eid">编辑</div>
+              <div className="btn-eid" onClick={this.btnEditClick.bind(this)}>编辑</div>
             </div>
             <div className="name">{this.props.$GET_USER.nickName}</div>
             <div className="text">
@@ -78,7 +87,7 @@ class Me extends  Component {
               <span>评论 23</span>
             </div>
             <div className="label">
-              <span><i className={`i-icon ${this.props.$GET_USER.sex===1?'icon-boy':'icon-girl'}`}></i></span><span>收款</span><span>两份</span><span>四大皆空</span><span>kkdkii</span>
+              <span><i className={`i-icon ${this.props.$GET_USER.sex===1?'icon-boy':'icon-girl'}`}></i></span><span>一枝花</span><span>佛系</span><span>四大皆空</span>
             </div>
           </div>
         </section>
@@ -94,6 +103,20 @@ class Me extends  Component {
             </Switch>
           </div>
         </section>
+        {
+          this.state.isDialogShow?(<div onClick={() => {this.setState({isDialogShow: false})}}>
+            <Dialog>
+              <div className="detail-page-dialog-content">
+                <p className="p-text1">功能开发中...</p>
+                <p className="p-text1">欢迎提 issue 或 PR 一起完成开发</p>
+                <p className="p-text1">如果你是个UI妹子，对该项目感兴趣的话欢迎提供UI，这边全力配合</p>
+                <p className="p-text1">如果你是个 Front End Engineer，咱们可以一起探讨项目中遇到的技术问题</p>
+                <p className="p-text1">如果你是个 PM ,欢迎对产品提出你宝贵的建议</p>
+                <p className="p-text1">项目地址 github：<a href="https://github.com/ZengTianShengZ/react-yqy">react-yqy</a></p>
+              </div>
+            </Dialog>
+          </div>): null
+        }
       </section>
     )
   }
