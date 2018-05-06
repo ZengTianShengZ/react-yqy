@@ -21,8 +21,8 @@ class Login extends Component {
   state = {
     isFullInfo: true,
     formData: {
-      phone: '',
-      verifyCode: '',
+      phone: '17682442366',
+      verifyCode: '793550',
       sex: 0
     },
     codeMsg: {
@@ -110,6 +110,7 @@ class Login extends Component {
   }
   async fullInfomation(userId, sex) {
     const res = await API.setDefaultUserInfo({userId, sex})
+    Toast.hide();
     if (res.success) {
       this.props.ACTION_SET_USER()
       this.props.history.goBack()

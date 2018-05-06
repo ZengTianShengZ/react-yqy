@@ -13,24 +13,25 @@ const DB_USER = '_User'
 
 class API extends BaseApi{
   setDefaultUserInfo = async (data) => {
-    try {
-      const user = AV.Object.createWithoutData(DB_USER, data.userId);
-      const {headImgUrl, nickName} = getUserDefault(data.sex)
-      user.set('headImgUrl', headImgUrl);
-      user.set('nickName', nickName);
-      user.set('userName', nickName);
-      user.set('sex', data.sex);
-      user.set('isFullInfo', 1);
-      const res= await user.save();
-      if (res.id) {
-        return {success: true, msg: ''}
-      } else {
-        return {success: false, msg: '网络请求出错'}
-      }
-    } catch (err) {
-      console.log(err)
-      return {success: false, msg: '服务器错误，请稍后重试'}
-    }
+    const {headImgUrl, nickName} = getUserDefault(data.sex)
+    return new Promise((resolve, reject) => {
+      AV.User.logIn().then(function (user) {
+        user.set('headImgUrl', headImgUrl);
+        user.set('nickName', nickName);
+        user.set('sex', data.sex);
+        user.set('isFullInfo', 1);
+        return user.save();
+      }).then(function(loginedUser) {
+        if (loginedUser.get('isFullInfo') === 1) {
+          resolve({success: true, msg: ''})
+        } else {
+          resolve({success: false, msg: '网络请求出错'})
+        }
+      }).catch(function(error) {
+        reject({success: false, msg: '服务器错误，请稍后重试'})
+      });
+    })
+
   }
   getUserForId = async (id) => {
     try {
