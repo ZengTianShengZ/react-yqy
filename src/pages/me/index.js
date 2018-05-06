@@ -5,6 +5,7 @@
  */
 import React, {Component} from "react";
 import { Switch, Route, Link} from 'react-router-dom';
+import { is, fromJS } from 'immutable';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Dialog from 'src/components/dialog'
@@ -69,6 +70,9 @@ class Me extends  Component {
       this.setState({sectionTopClientHeight});
       window.addEventListener('scroll', this.listenerTopTabs.bind(this))
     }, 100)
+  }
+  shouldComponentUpdate(nextProps, nextState){
+    return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state), fromJS(nextState))
   }
   render() {
     return (

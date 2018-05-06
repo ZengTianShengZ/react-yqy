@@ -4,6 +4,7 @@
  * @update: 2018/4/21
  */
 import React, {Component} from "react";
+import { is, fromJS } from 'immutable';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {formatDate} from 'src/utils/index';
@@ -148,6 +149,9 @@ class Details extends Component {
     this.getDetailData()
     this.getComment()
   }
+  shouldComponentUpdate(nextProps, nextState){
+    return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state), fromJS(nextState))
+  }
   render() {
     const {attributes, createdAt} = this.state.resData
     const time = formatDate(createdAt)
@@ -164,8 +168,8 @@ class Details extends Component {
                 </div>
               </div>
               <div className="f-je-as-dc top-right">
-                <span>福鼎家园·晓风院</span>
-                <span>浏览：323233</span>
+                {/*<span>福鼎家园·晓风院</span>*/}
+                {/*<span>浏览：323233</span>*/}
               </div>
             </div>
             <div className="content-text">{attributes.newsMsg}</div>

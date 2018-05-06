@@ -4,6 +4,7 @@
  * @update: 2018/4/21
  */
 import React, {Component} from "react";
+import { is, fromJS } from 'immutable';
 import { Link} from 'react-router-dom'
 import API from 'src/api'
 import pullLoading from 'src/components/pullLoading'
@@ -88,6 +89,9 @@ class Home extends Component {
   }
   componentDidMount() {
     this.getData()
+  }
+  shouldComponentUpdate(nextProps, nextState){
+    return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state), fromJS(nextState))
   }
   render() {
     const row = (rowData, sectionID, rowID) => {
