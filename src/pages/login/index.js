@@ -7,9 +7,11 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import AV from 'leancloud-storage';
 import PropTypes from 'prop-types';
+import Toast from 'antd-mobile/lib/toast';
 import API from 'src/api'
 import toast from 'src/components/toast'
 import {ACTION_SET_USER} from 'src/store/user/action'
+import 'antd-mobile/lib/toast/style/css';
 import './style.less'
 
 class Login extends Component {
@@ -17,12 +19,15 @@ class Login extends Component {
     ACTION_SET_USER: PropTypes.func.isRequired
   }
   state = {
-    msg: '',
     isFullInfo: true,
     formData: {
-      phone: '17682442366',
-      verifyCode: '793550',
+      phone: '',
+      verifyCode: '',
       sex: 0
+    },
+    codeMsg: {
+      send: false,
+      time: 60
     }
   }
   handleInput = (type, event) => {
@@ -44,18 +49,27 @@ class Login extends Component {
     this.setState({formData})
   }
   btnGetVerifyCode() {
+    this.setState({codeMsg: {send: true}})
     const {phone} = this.state.formData
     AV.Cloud.requestSmsCode(phone).then(function (success) {
       console.log(success)
     }, function (error) {
       console.log(error)
+      this.setState({codeMsg: {send: false }})
     });
   }
+  countDown() {
+    setInterval(() => {
+      // ...
+    }, 1000)
+  }
   async btnLoginClick() {
+    Toast.loading('登录中...', 50, null, true)
     const {phone, verifyCode, sex} = this.state.formData
     let userId = ''
     if (!this.state.isFullInfo) {
       if (sex === 0) {
+        Toast.hide();
         toast({msg: '首次登陆，请选择性别'})
       } else {
         this.fullInfomation(userId, sex)
@@ -66,10 +80,12 @@ class Login extends Component {
       const res = await AV.User.signUpOrlogInWithMobilePhone(phone, verifyCode)
       userId = res.id
       if (!userId) {
+        Toast.hide();
         toast({msg: '登录出错'})
         return
       }
       const resUser = await API.getUserForId(userId)
+      Toast.hide();
       if (resUser.success) {
         if (resUser.data.attributes.isFullInfo) {
           toast({msg: '登录成功'})
@@ -88,6 +104,7 @@ class Login extends Component {
       }
     } catch (err) {
       console.log(err)
+      Toast.hide();
       toast({msg: '登录失败,请验证手机号或验证码是否正确'})
     }
   }
@@ -104,7 +121,7 @@ class Login extends Component {
     return (
       <section className="login">
         <div className="top">
-          <img className="logo" src="https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png" alt=""/>
+          <img className="logo" src="http://oyn5he3v2.bkt.clouddn.com/yqy/423326/officialLogo.png" alt=""/>
         </div>
         <div className="content">
           <div className="form-tiem f-js-as">
@@ -116,7 +133,9 @@ class Login extends Component {
             <span className="span-icon ion-android-mail"></span>
             <input className="input input-verify-code" type="text" maxLength="8" placeholder="请输入验证码" value={this.state.formData.verifyCode}
                    onChange={this.handleInput.bind(this, 'verifyCode')}/>
-            <span onClick={this.btnGetVerifyCode.bind(this)}>获取验证码</span>
+            {
+              this.state.codeMsg.send? (<span>验证码已发送</span>) : (<span onClick={this.btnGetVerifyCode.bind(this)}>获取验证码</span>)
+            }
           </div>
           <div className='form-tiem'>
             新用户注册请选择性别，将为您分配花名
