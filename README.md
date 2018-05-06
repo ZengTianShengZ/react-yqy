@@ -69,7 +69,7 @@ react + redux + webpack + react-router v4 + ES6/7/8 + immutable + antd-mobile
 ## 项目部分页面预览
 二维码预览：
 
-<img style="width:300px;height:533.33px" src="readmeImg/er.png"/>
+<img style="width:300px;height:533.33px" src="readmeImg/er2.png"/>
 
 <img style="width:300px;height:533.33px" src="readmeImg/img-2.png"/><img style="width:300px;height:533.33px" src="readmeImg/img-1.png"/>
 
